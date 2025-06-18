@@ -1,9 +1,24 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+import logging
+import json
+from datetime import datetime
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s \n %(message)s',
+    handlers=[
+        logging.FileHandler("logs/api_calls.log"),
+        logging.StreamHandler()
+    ]
+)
+
+logger = logging.getLogger(__name__)
 
 # Load environment variables from .env file
 load_dotenv(override=True)
@@ -49,7 +64,8 @@ async def generate_draft(request: DraftRequest):
     """
     Generates a landing page draft using an AI model.
     """
-    draft_content = "{\n  \"niche\": \"Barber Services\",\n  \"hero\": {\n    \"headline\": \"Unleash Your Style with Confidence\",\n    \"sub_headline\": \"Expert Haircuts & Grooming Tailored Just for You\"\n  },\n  \"features\": [\n    {\n      \"title\": \"Expert Barbers\",\n      \"description\": \"Our talented barbers are dedicated to delivering high-quality cuts, shaves, and grooming services. With years of experience, they know exactly how to make you look and feel your best.\"\n    },\n    {\n      \"title\": \"Customized Experience\",\n      \"description\": \"Every visit is tailored to your unique style and preferences. We take the time to understand your needs, ensuring you walk out with a look that reflects your personality.\"\n    },\n    {\n      \"title\": \"Relaxing Atmosphere\",\n      \"description\": \"Step into our modern barbershop and enjoy a relaxing environment. With comfortable seating and a friendly vibe, we make grooming a pleasurable experience.\"\n    },\n    {\n      \"title\": \"Quality Products\",\n      \"description\": \"We use top-of-the-line products to ensure your hair and skin receive the best care. From premium shampoos to moisturizing creams, your grooming routine matters to us.\"\n    },\n    {\n      \"title\": \"Walk-Ins Welcome\",\n      \"description\": \"No appointment? No problem! Our welcoming team is ready to serve you with exceptional hair services, whether you're a first-timer or one of our loyal clients.\"\n    }\n  ],\n  \"testimonials\": [\n    {\n      \"quote\": \"My go-to barbershop! Always leave feeling fresh and confident.\",\n      \"author\": \"James T.\"\n    },\n    {\n      \"quote\": \"The barbers here truly listen to what you want and deliver every time.\",\n      \"author\": \"Carlos R.\"\n    },\n    {\n      \"quote\": \"I love the laid-back atmosphere. It’s more than just a haircut; it’s an experience!\",\n      \"author\": \"David M.\"\n    }\n  ],\n  \"cta\": {\n    \"headline\": \"Book Your Appointment Today!\",\n    \"button_text\": \"Schedule Now\"\n  },\n  \"footer\": {\n    \"text\": \"Your Style, Our Passion – Visit us for a premium grooming experience.\"\n  }\n}"
+    draft_content = "{\n  \"niche\": \"Barber Services\",\n  \"hero\": {\n    \"headline\": \"Unleash Your Style with Confidence\",\n    \"sub_headline\": \"Expert Haircuts & Grooming Tailored Just for You\"\n  },\n  \"features\": [\n    {\n      \"title\": \"Expert Barbers\",\n      \"description\": \"Our talented barbers are dedicated to delivering high-quality cuts, shaves, and grooming services. With years of experience, they know exactly how to make you look and feel your best.\"\n    },\n    {\n      \"title\": \"Customized Experience\",\n      \"description\": \"Every visit is tailored to your unique style and preferences. We take the time to understand your needs, ensuring you walk out with a look that reflects your personality.\"\n    },\n    {\n      \"title\": \"Relaxing Atmosphere\",\n      \"description\": \"Step into our modern barbershop and enjoy a relaxing environment. With comfortable seating and a friendly vibe, we make grooming a pleasurable experience.\"\n    },\n    {\n      \"title\": \"Quality Products\",\n      \"description\": \"We use top-of-the-line products to ensure your hair and skin receive the best care. From premium shampoos to moisturizing creams, your grooming routine matters to us.\"\n    },\n    {\n      \"title\": \"Walk-Ins Welcome\",\n      \"description\": \"No appointment? No problem! Our welcoming team is ready to serve you with exceptional hair services, whether you're a first-timer or one of our loyal clients.\"\n    }\n  ],\n  \"testimonials\": [\n    {\n      \"quote\": \"My go-to barbershop! Always leave feeling fresh and confident.\",\n      \"author\": \"James T.\"\n    },\n    {\n      \"quote\": \"The barbers here truly listen to what you want and deliver every time.\",\n      \"author\": \"Carlos R.\"\n    },\n    {\n      \"quote\": \"I love the laid-back atmosphere. It's more than just a haircut; it's an experience!\",\n      \"author\": \"David M.\"\n    }\n  ],\n  \"cta\": {\n    \"headline\": \"Book Your Appointment Today!\",\n    \"button_text\": \"Schedule Now\"\n  },\n  \"footer\": {\n    \"text\": \"Your Style, Our Passion – Visit us for a premium grooming experience.\"\n  }\n}"
+    logger.info(f"draft content: {draft_content}")
     return {
         "prompt": request.prompt,
         "draft_content": draft_content,
@@ -82,11 +98,12 @@ Ensure the tone, vocabulary, and core messaging are perfectly tailored to the id
         # In a real app, you'd want to parse the response more robustly
         # and maybe handle cases where the model doesn't return valid JSON.
         draft_content = completion.choices[0].message.content
-        
+        logger.info(f"draft content: {draft_content}")
         return {
             "prompt": request.prompt,
             "draft_content": draft_content,
         }
     except Exception as e:
+        logger.error(f"An error occurred: {e}", exc_info=True)
         # Proper error handling should be implemented
         raise HTTPException(status_code=500, detail=str(e)) 
