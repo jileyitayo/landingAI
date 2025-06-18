@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import os
@@ -53,7 +53,14 @@ async def generate_draft(request: DraftRequest):
         completion = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are a world-class copywriter. Your task is to generate content for a landing page. Please return the content in JSON format with the following keys: 'headline', 'body', 'cta_button_text'."},
+                {"role": "system", "content": """You are a world-class copywriter. 
+Your task is to generate content for a landing page based on a user's prompt. 
+Please return the content in a structured JSON format with the following keys: 
+'hero' (with 'headline' and 'sub_headline'), 
+'features' (an array of objects with 'title' and 'description'), 
+'testimonials' (an array of objects with 'quote' and 'author'), 
+'cta' (with 'headline' and 'button_text'),
+'footer' (with 'text')."""},
                 {"role": "user", "content": f"Generate landing page content for the following prompt: {request.prompt}"}
             ]
         )
@@ -68,4 +75,4 @@ async def generate_draft(request: DraftRequest):
         }
     except Exception as e:
         # Proper error handling should be implemented
-        return {"error": str(e)} 
+        raise HTTPException(status_code=500, detail=str(e)) 
