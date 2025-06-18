@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
 import { ChatInput, ChatMessages } from '@/app/components/chat';
 
 interface Message {
@@ -9,7 +10,7 @@ interface Message {
   isUser: boolean;
 }
 
-const ChatPage = () => {
+export const ChatPanel = () => {
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -35,16 +36,14 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
-      <header className="p-4 border-b bg-white shadow-sm">
-        <h1 className="text-xl font-semibold">Conversational AI</h1>
-      </header>
-      <main className="flex-1 flex flex-col">
+    <Card className="h-full flex flex-col">
+      <CardHeader>
+        <CardTitle>Conversational AI</CardTitle>
+      </CardHeader>
+      <CardContent className="flex-1 flex flex-col p-0">
         <ChatMessages messages={messages} isLoading={isLoading} />
         <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
-      </main>
-    </div>
+      </CardContent>
+    </Card>
   );
-};
-
-export default ChatPage; 
+}; 

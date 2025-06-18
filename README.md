@@ -19,4 +19,4 @@ To run the chat interface, follow these steps:
     npm run dev
     ```
 4.  **View the chat page:**
-    Open your web browser and go to [http://localhost:3000/chat](http://localhost:3000/chat).
+    Open your web browser and go to [http://localhost:3000/](http://localhost:3000/).
