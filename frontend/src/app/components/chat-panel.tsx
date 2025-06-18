@@ -23,22 +23,43 @@ export const ChatPanel = () => {
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const response = await fetch('http://localhost:8000/api/v1/generate-draft', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: text }),
+      });
 
-    const aiMessage: Message = {
-      id: Date.now().toString(),
-      text: `This is a simulated response to: "${text}"`,
-      isUser: false,
-    };
-    setMessages((prev) => [...prev, aiMessage]);
-    setIsLoading(false);
+      if (!response.ok) {
+        throw new Error('Failed to fetch from the API');
+      }
+
+      const data = await response.json();
+
+      const aiMessage: Message = {
+        id: Date.now().toString(),
+        text: JSON.stringify(data.draft_content, null, 2),
+        isUser: false,
+      };
+      setMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+      const errorMessage: Message = {
+        id: Date.now().toString(),
+        text: 'Sorry, something went wrong.',
+        isUser: false,
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <Card className="h-full flex flex-col">
       <CardHeader>
-        <CardTitle>Conversational AI</CardTitle>
+        <CardTitle>Landing AI</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col p-0">
         <ChatMessages messages={messages} isLoading={isLoading} />
