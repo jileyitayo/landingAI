@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
 import { ChatInput, ChatMessages } from '@/app/components/chat';
+import { LandingPageContent } from '../types';
 
 interface Message {
   id: string;
@@ -10,7 +11,11 @@ interface Message {
   isUser: boolean;
 }
 
-export const ChatPanel = () => {
+interface ChatPanelProps {
+  onDraftGenerated: (content: LandingPageContent) => void;
+}
+
+export const ChatPanel = ({ onDraftGenerated }: ChatPanelProps) => {
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -37,10 +42,15 @@ export const ChatPanel = () => {
       }
 
       const data = await response.json();
+      console.log(data);
+
+      // The AI response is a stringified JSON, so we need to parse it.
+      const draftContent = JSON.parse(data.draft_content);
+      onDraftGenerated(draftContent);
 
       const aiMessage: Message = {
         id: Date.now().toString(),
-        text: JSON.stringify(data.draft_content, null, 2),
+        text: "I've generated a draft for you. You can see it in the preview panel.",
         isUser: false,
       };
       setMessages((prev) => [...prev, aiMessage]);
