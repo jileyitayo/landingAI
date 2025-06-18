@@ -72,7 +72,7 @@ export const ChatPanel = ({ onDraftGenerated, niche }: ChatPanelProps) => {
       <CardHeader>
         <CardTitle>Landing AI</CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col p-0">
+      <CardContent className="flex-1 flex flex-col p-0 max-h-[100lvh-280px-280px]">
         <ChatMessages messages={messages} isLoading={isLoading} />
         <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
       </CardContent>

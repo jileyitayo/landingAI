@@ -21,7 +21,7 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
   return (
     <Card className="h-full">
       <CardContent className="p-0">
-        <div className="bg-gray-500 aspect-[9/16] w-full max-w-[400px] mx-auto flex flex-col justify-between text-center p-8 overflow-y-auto">
+        <div className="bg-gray-500 aspect-[9/16] w-full max-h-[98lvh] flex flex-col justify-between text-center p-8 overflow-y-auto">
           <div className="text-white">
             <h1 className="text-4xl font-bold">{content.hero.headline}</h1>
             <p className="mt-2">{content.hero.sub_headline}</p>

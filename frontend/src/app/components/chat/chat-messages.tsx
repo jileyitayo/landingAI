@@ -24,7 +24,7 @@ export const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
   }, [messages]);
 
   return (
-    <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4">
+    <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[80lvh]">
       {messages.map((msg) => (
         <ChatBubble key={msg.id} message={msg.text} isUser={msg.isUser} />
       ))}
