@@ -13,9 +13,10 @@ interface Message {
 
 interface ChatPanelProps {
   onDraftGenerated: (content: LandingPageContent) => void;
+  niche: string;
 }
 
-export const ChatPanel = ({ onDraftGenerated }: ChatPanelProps) => {
+export const ChatPanel = ({ onDraftGenerated, niche }: ChatPanelProps) => {
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -34,7 +35,7 @@ export const ChatPanel = ({ onDraftGenerated }: ChatPanelProps) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt: text }),
+        body: JSON.stringify({ prompt: text, niche: niche }),
       });
 
       if (!response.ok) {

@@ -5,7 +5,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/app/components/ui/switch";
 import Image from "next/image";
 
-export const CustomizationPanel = () => {
+interface CustomizationPanelProps {
+  onNicheChange: (niche: string) => void;
+}
+
+export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({ onNicheChange }) => {
   return (
     <Card className="h-full">
       <CardHeader>
@@ -14,7 +18,7 @@ export const CustomizationPanel = () => {
       <CardContent className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="niche">Niche</Label>
-          <Select>
+          <Select onValueChange={onNicheChange}>
             <SelectTrigger id="niche">
               <SelectValue placeholder="Select a niche" />
             </SelectTrigger>
