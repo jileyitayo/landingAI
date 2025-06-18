@@ -49,7 +49,7 @@ async def generate_draft(request: DraftRequest):
     """
     Generates a landing page draft using an AI model.
     """
-    # draft_content = "{\n  \"hero\": {\n    \"headline\": \"Transform Your Hair, Transform Your Life\",\n    \"sub_headline\": \"Experience Luxurious Hair Services Tailored Just for You\"\n  },\n  \"features\": [\n    {\n      \"title\": \"Expert Stylists\",\n      \"description\": \"Our skilled team of hair professionals are dedicated to bringing your hair dreams to life, using the latest techniques and trends.\"\n    },\n    {\n      \"title\": \"Customized Treatments\",\n      \"description\": \"From color transformations to nourishing treatments, every service is tailored to meet your unique hair needs.\"\n    },\n    {\n      \"title\": \"Premium Products\",\n      \"description\": \"We use only the highest quality products to ensure your hair remains healthy, vibrant, and full of life.\"\n    },\n    {\n      \"title\": \"Relaxing Environment\",\n      \"description\": \"Enjoy a serene atmosphere designed to make your hair appointment a truly relaxing experience.\"\n    },\n    {\n      \"title\": \"Customer Loyalty Program\",\n      \"description\": \"Join our loyalty program and unlock exclusive discounts and perks, making every visit even more rewarding!\"\n    }\n  ],\n  \"testimonials\": [\n    {\n      \"quote\": \"I absolutely love my new hair! The team really listened to what I wanted and delivered beyond my expectations.\",\n      \"author\": \"Emily R.\"\n    },\n    {\n      \"quote\": \"Such a welcoming environment and professional staff. I won’t go anywhere else!\",\n      \"author\": \"Sophia M.\"\n    },\n    {\n      \"quote\": \"I am obsessed with my new haircut and color! The products they use made such a difference.\",\n      \"author\": \"Liam J.\"\n    }\n  ],\n  \"cta\": {\n    \"headline\": \"Book Your Hair Transformation Today!\",\n    \"button_text\": \"Schedule an Appointment\"\n  },\n  \"footer\": {\n    \"text\": \"© 2023 Hair Business. All Rights Reserved. Connect with us on social media for updates and promotions!\"\n  }\n}\n"
+    # draft_content = "{\n  \"hero\": {\n    \"headline\": \"Transform Your Hair, Transform Your Life\",\n    \"sub_headline\": \"Experience Luxurious Hair Services Tailored Just for You\"\n  },\n  \"features\": [\n    {\n      \"title\": \"Expert Stylists\",\n      \"description\": \"Our skilled team of hair professionals are dedicated to bringing your hair dreams to life, using the latest techniques and trends.\"\n    },\n    {\n      \"title\": \"Customized Treatments\",\n      \"description\": \"From color transformations to nourishing treatments, every service is tailored to meet your unique hair needs.\"\n    },\n    {\n      \"title\": \"Premium Products\",\n      \"description\": \"We use only the highest quality products to ensure your hair remains healthy, vibrant, and full of life.\"\n    },\n    {\n      \"title\": \"Relaxing Environment\",\n      \"description\": \"Enjoy a serene atmosphere designed to make your hair appointment a truly relaxing experience.\"\n    },\n    {\n      \"title\": \"Customer Loyalty Program\",\n      \"description\": \"Join our loyalty program and unlock exclusive discounts and perks, making every visit even more rewarding!\"\n    }\n  ],\n  \"testimonials\": [\n    {\n      \"quote\": \"I absolutely love my new hair! The team really listened to what I wanted and delivered beyond my expectations.\",\n      \"author\": \"Emily R.\"\n    },\n    {\n      \"quote\": \"Such a welcoming environment and professional staff. I won't go anywhere else!\",\n      \"author\": \"Sophia M.\"\n    },\n    {\n      \"quote\": \"I am obsessed with my new haircut and color! The products they use made such a difference.\",\n      \"author\": \"Liam J.\"\n    }\n  ],\n  \"cta\": {\n    \"headline\": \"Book Your Hair Transformation Today!\",\n    \"button_text\": \"Schedule an Appointment\"\n  },\n  \"footer\": {\n    \"text\": \"© 2023 Hair Business. All Rights Reserved. Connect with us on social media for updates and promotions!\"\n  }\n}\n"
     # return {
     #         "prompt": request.prompt,
     #         "draft_content": draft_content,
@@ -60,14 +60,21 @@ async def generate_draft(request: DraftRequest):
         completion = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": """You are a world-class copywriter. 
-Your task is to generate content for a landing page based on a user's prompt. 
-Please return the content in a structured JSON format (without the ```json and ```) with the following keys: 
-'hero' (with 'headline' and 'sub_headline'), 
-'features' (an array of objects with 'title' and 'description'), 
-'testimonials' (an array of objects with 'quote' and 'author'), 
-'cta' (with 'headline' and 'button_text'),
-'footer' (with 'text')."""},
+                {"role": "system", "content": """You are an expert landing page copywriter. Your goal is to create highly relevant and effective content for a specific niche.
+
+First, analyze the user's prompt to determine the business niche (e.g., 'SaaS for project management', 'Luxury real estate in Miami', 'Handmade vegan soap e-commerce').
+
+Then, embodying the role of a top-tier copywriter for that specific niche, generate a complete set of landing page content.
+
+The output must be a single JSON object (without any markdown formatting like ```json and ```) containing the following keys:
+- 'niche': The niche you identified from the prompt.
+- 'hero': An object with 'headline' and 'sub_headline'.
+- 'features': An array of objects, each with 'title' and 'description'.
+- 'testimonials': An array of objects, each with 'quote' and 'author'.
+- 'cta': An object with 'headline' and 'button_text'.
+- 'footer': An object with 'text'.
+
+Ensure the tone, vocabulary, and core messaging are perfectly tailored to the identified niche to create a strong starting point for the user."""},
                 {"role": "user", "content": f"Generate landing page content for the following prompt: {request.prompt}"}
             ]
         )

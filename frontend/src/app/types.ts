@@ -18,4 +18,5 @@ export interface LandingPageContent {
     footer: {
       text: string;
     };
+    niche: string;
   } 

@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/components/ui/select";
 import { Switch } from "@/app/components/ui/switch";
 import Image from "next/image";
 
@@ -11,6 +12,20 @@ export const CustomizationPanel = () => {
         <CardTitle>Customization</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
+        <div className="space-y-2">
+          <Label htmlFor="niche">Niche</Label>
+          <Select>
+            <SelectTrigger id="niche">
+              <SelectValue placeholder="Select a niche" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="saas">SaaS</SelectItem>
+              <SelectItem value="real-estate">Real Estate</SelectItem>
+              <SelectItem value="ecommerce">E-commerce</SelectItem>
+              <SelectItem value="startup">Startup</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
         <div className="space-y-2">
           <Label htmlFor="headline">Headline</Label>
           <Input id="headline" defaultValue="Introducing Our Eco-Friendly Water Bottle" />
