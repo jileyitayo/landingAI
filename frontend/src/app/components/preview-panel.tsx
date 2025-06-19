@@ -115,18 +115,36 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
               </video>
             )}
             
-            {/* Overlay for better text readability */}
-            <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+            {/* Dynamic Overlay for better text readability */}
+            <div 
+              className="absolute inset-0" 
+              style={{
+                backgroundColor: content.hero.overlay_color || '#000000',
+                opacity: (content.hero.overlay_opacity || 30) / 100
+              }}
+            ></div>
             
             {/* Hero Content */}
             <div className="relative z-10 max-w-4xl mx-auto w-full">
               <div className={`grid ${content.hero.visual_element ? 'md:grid-cols-2' : 'grid-cols-1'} gap-8 items-center`}>
                 {/* Text Content */}
                 <div className={`space-y-6 ${content.hero.layout === 'right-aligned' && content.hero.visual_element ? 'md:order-2' : ''}`}>
-                  <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+                  <h1 
+                    className="leading-tight"
+                    style={{
+                      fontSize: `${content.hero.headline_font_size || 48}px`,
+                      fontWeight: content.hero.headline_bold ? 'bold' : 'normal',
+                      fontStyle: content.hero.headline_italic ? 'italic' : 'normal'
+                    }}
+                  >
                     {content.hero.headline}
                   </h1>
-                  <p className="text-xl md:text-2xl text-gray-100 leading-relaxed">
+                  <p 
+                    className="text-gray-100 leading-relaxed"
+                    style={{
+                      fontSize: `${content.hero.sub_headline_font_size || 24}px`
+                    }}
+                  >
                     {content.hero.sub_headline}
                   </p>
                   {content.hero.value_proposition && (
@@ -135,11 +153,12 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
                     </p>
                   )}
                   <div className="pt-4">
-                    <button 
-                      className={getButtonClassName(content.hero.cta_button.style, content.hero.cta_button.size)}
+                    <a 
+                      href={content.hero.cta_button.url || '#'}
+                      className={getButtonClassName(content.hero.cta_button.style, content.hero.cta_button.size) + ' inline-block'}
                     >
                       {content.hero.cta_button.text}
-                    </button>
+                    </a>
                   </div>
                 </div>
 

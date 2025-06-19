@@ -28,10 +28,17 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
   const [heroData, setHeroData] = useState({
     headline: 'Your Compelling Headline Here',
     subHeadline: 'Supporting subtitle that explains your value proposition',
+    headlineFontSize: 48,
+    headlineBold: true,
+    headlineItalic: false,
+    subHeadlineFontSize: 24,
     backgroundType: 'color' as 'color' | 'image' | 'video',
     backgroundValue: '#6366f1',
+    overlayColor: '#000000',
+    overlayOpacity: 30,
     layout: 'centered' as 'centered' | 'left-aligned' | 'right-aligned',
     ctaText: 'Get Started',
+    ctaUrl: '#',
     ctaStyle: 'primary' as 'primary' | 'secondary' | 'outline',
     ctaSize: 'lg' as 'sm' | 'md' | 'lg',
     valueProposition: 'Transform your business with our innovative solution',
@@ -46,10 +53,17 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
       const updatedHeroData = {
         headline: aiHero.headline || 'Your Compelling Headline Here',
         subHeadline: aiHero.sub_headline || 'Supporting subtitle that explains your value proposition',
+        headlineFontSize: aiHero.headline_font_size || 48,
+        headlineBold: aiHero.headline_bold || true,
+        headlineItalic: aiHero.headline_italic || false,
+        subHeadlineFontSize: aiHero.sub_headline_font_size || 24,
         backgroundType: aiHero.background_type || 'color',
         backgroundValue: aiHero.background_value || '#6366f1',
+        overlayColor: aiHero.overlay_color || '#000000',
+        overlayOpacity: aiHero.overlay_opacity || 30,
         layout: aiHero.layout || 'centered',
         ctaText: aiHero.cta_button?.text || 'Get Started',
+        ctaUrl: aiHero.cta_button?.url || '#',
         ctaStyle: aiHero.cta_button?.style || 'primary',
         ctaSize: aiHero.cta_button?.size || 'lg',
         valueProposition: aiHero.value_proposition || 'Transform your business with our innovative solution',
@@ -185,6 +199,37 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
                   value={heroData.headline}
                   onChange={(e) => updateHeroData('headline', e.target.value)}
                 />
+                <div className="grid grid-cols-3 gap-2 mt-2">
+                  <div className="space-y-1">
+                    <Label htmlFor="headline-size" className="text-xs">Font Size</Label>
+                    <div className="flex items-center space-x-1">
+                      <Input
+                        id="headline-size"
+                        type="number"
+                        min="12"
+                        max="96"
+                        value={heroData.headlineFontSize}
+                        onChange={(e) => updateHeroData('headlineFontSize', parseInt(e.target.value))}
+                        className="text-xs"
+                      />
+                      <span className="text-xs text-gray-500">px</span>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-xs">Bold</Label>
+                    <Switch
+                      checked={heroData.headlineBold}
+                      onCheckedChange={(checked) => updateHeroData('headlineBold', checked)}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-xs">Italic</Label>
+                    <Switch
+                      checked={heroData.headlineItalic}
+                      onCheckedChange={(checked) => updateHeroData('headlineItalic', checked)}
+                    />
+                  </div>
+                </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="hero-subheadline">Sub-headline</Label>
@@ -193,6 +238,21 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
                   value={heroData.subHeadline}
                   onChange={(e) => updateHeroData('subHeadline', e.target.value)}
                 />
+                <div className="space-y-1">
+                  <Label htmlFor="subheadline-size" className="text-xs">Font Size</Label>
+                  <div className="flex items-center space-x-1">
+                    <Input
+                      id="subheadline-size"
+                      type="number"
+                      min="12"
+                      max="48"
+                      value={heroData.subHeadlineFontSize}
+                      onChange={(e) => updateHeroData('subHeadlineFontSize', parseInt(e.target.value))}
+                      className="text-xs w-20"
+                    />
+                    <span className="text-xs text-gray-500">px</span>
+                  </div>
+                </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="value-prop">Value Proposition</Label>
@@ -274,6 +334,64 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
                     onChange={(e) => updateHeroData('backgroundValue', e.target.value)}
                     placeholder={heroData.backgroundType === 'image' ? 'https://images.unsplash.com/photo-...' : 'https://example.com/video.mp4'}
                   />
+                  {heroData.backgroundType === 'image' && (
+                    <div className="space-y-2">
+                      <Label>Or Upload Image</Label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                              updateHeroData('backgroundValue', e.target?.result as string);
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                        className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              {/* Overlay Controls */}
+              {(heroData.backgroundType === 'image' || heroData.backgroundType === 'video') && (
+                <div className="space-y-3">
+                  <Label>Overlay Settings</Label>
+                  <div className="space-y-2">
+                    <Label className="text-sm">Overlay Color</Label>
+                    <div className="flex space-x-2">
+                      <input
+                        type="color"
+                        value={heroData.overlayColor}
+                        onChange={(e) => updateHeroData('overlayColor', e.target.value)}
+                        className="w-12 h-10 rounded border cursor-pointer"
+                      />
+                      <Input
+                        value={heroData.overlayColor}
+                        onChange={(e) => updateHeroData('overlayColor', e.target.value)}
+                        placeholder="#000000"
+                        className="flex-1"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <Label className="text-sm">Overlay Opacity</Label>
+                      <span className="text-sm text-gray-500">{heroData.overlayOpacity}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={heroData.overlayOpacity}
+                      onChange={(e) => updateHeroData('overlayOpacity', parseInt(e.target.value))}
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                    />
+                  </div>
                 </div>
               )}
             </div>
@@ -335,6 +453,14 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
                 <Input
                   value={heroData.ctaText}
                   onChange={(e) => updateHeroData('ctaText', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Button URL</Label>
+                <Input
+                  value={heroData.ctaUrl}
+                  onChange={(e) => updateHeroData('ctaUrl', e.target.value)}
+                  placeholder="https://example.com"
                 />
               </div>
               <div className="grid grid-cols-2 gap-2">
