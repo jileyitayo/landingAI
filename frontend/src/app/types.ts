@@ -1,4 +1,12 @@
 export interface LandingPageContent {
+    niche: string;
+    header: {
+      logo_text: string;
+      menu_items: {
+        label: string;
+        href: string;
+      }[];
+    };
     hero: {
       headline: string;
       sub_headline: string;
@@ -18,5 +26,4 @@ export interface LandingPageContent {
     footer: {
       text: string;
     };
-    niche: string;
   } 

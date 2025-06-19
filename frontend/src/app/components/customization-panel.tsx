@@ -4,12 +4,33 @@ import { Label } from "@/app/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/components/ui/select";
 import { Switch } from "@/app/components/ui/switch";
 import Image from "next/image";
+import { useState } from "react";
 
 interface CustomizationPanelProps {
   onNicheChange: (niche: string) => void;
 }
 
 export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({ onNicheChange }) => {
+  const [customNiche, setCustomNiche] = useState('');
+  const [selectedNiche, setSelectedNiche] = useState('');
+
+  const handleNicheSelect = (value: string) => {
+    setSelectedNiche(value);
+    if (value === 'custom') {
+      onNicheChange(customNiche);
+    } else {
+      onNicheChange(value);
+      setCustomNiche('');
+    }
+  };
+
+  const handleCustomNicheChange = (value: string) => {
+    setCustomNiche(value);
+    if (selectedNiche === 'custom') {
+      onNicheChange(value);
+    }
+  };
+
   return (
     <Card className="h-full">
       <CardHeader>
@@ -17,18 +38,36 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({ onNicheC
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="niche">Niche</Label>
-          <Select onValueChange={onNicheChange}>
+          <Label htmlFor="niche">Business Niche</Label>
+          <Select onValueChange={handleNicheSelect}>
             <SelectTrigger id="niche">
               <SelectValue placeholder="Select a niche" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="saas">SaaS</SelectItem>
+              <SelectItem value="saas">SaaS Technology</SelectItem>
               <SelectItem value="real-estate">Real Estate</SelectItem>
               <SelectItem value="ecommerce">E-commerce</SelectItem>
-              <SelectItem value="startup">Startup</SelectItem>
+              <SelectItem value="startup">Tech Startup</SelectItem>
+              <SelectItem value="fitness">Fitness & Wellness</SelectItem>
+              <SelectItem value="consulting">Business Consulting</SelectItem>
+              <SelectItem value="restaurant">Restaurant & Food</SelectItem>
+              <SelectItem value="healthcare">Healthcare Services</SelectItem>
+              <SelectItem value="education">Education & Training</SelectItem>
+              <SelectItem value="custom">Custom (specify below)</SelectItem>
             </SelectContent>
           </Select>
+          {selectedNiche === 'custom' && (
+            <div className="mt-2">
+              <Label htmlFor="custom-niche">Custom Niche</Label>
+              <Input
+                id="custom-niche"
+                placeholder="Describe your specific business niche"
+                value={customNiche}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCustomNicheChange(e.target.value)}
+                className="mt-1"
+              />
+            </div>
+          )}
         </div>
         <div className="space-y-2">
           <Label htmlFor="headline">Headline</Label>
