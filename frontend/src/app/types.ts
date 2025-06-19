@@ -10,6 +10,20 @@ export interface LandingPageContent {
     hero: {
       headline: string;
       sub_headline: string;
+      background_type: 'color' | 'image' | 'video';
+      background_value: string; // color hex, image URL, or video URL
+      layout: 'centered' | 'left-aligned' | 'right-aligned';
+      visual_element?: {
+        type: 'image' | 'video';
+        url: string;
+        alt_text?: string;
+      };
+      cta_button: {
+        text: string;
+        style: 'primary' | 'secondary' | 'outline';
+        size: 'sm' | 'md' | 'lg';
+      };
+      value_proposition?: string;
     };
     features: {
       title: string;

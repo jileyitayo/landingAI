@@ -2,6 +2,7 @@ import { Button } from "@/app/components/ui/button";
 import { Card, CardContent } from "@/app/components/ui/card";
 import { Leaf, Droplets, TestTubeDiagonal } from "lucide-react";
 import { LandingPageContent } from "../types";
+import Image from "next/image";
 
 interface PreviewPanelProps {
   content: LandingPageContent | null;
@@ -18,10 +19,60 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
     );
   }
 
+  // Helper function to get button styling
+  const getButtonClassName = (style: string, size: string) => {
+    const baseClasses = "font-semibold transition-all duration-200";
+    
+    const styleClasses = {
+      primary: "bg-blue-600 hover:bg-blue-700 text-white",
+      secondary: "bg-gray-600 hover:bg-gray-700 text-white",
+      outline: "border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white bg-transparent"
+    };
+    
+    const sizeClasses = {
+      sm: "px-4 py-2 text-sm",
+      md: "px-6 py-3 text-base",
+      lg: "px-8 py-4 text-lg"
+    };
+    
+    return `${baseClasses} ${styleClasses[style as keyof typeof styleClasses]} ${sizeClasses[size as keyof typeof sizeClasses]} rounded-lg`;
+  };
+
+  // Helper function to get layout classes
+  const getLayoutClasses = (layout: string) => {
+    switch (layout) {
+      case 'left-aligned':
+        return 'text-left items-start';
+      case 'right-aligned':
+        return 'text-right items-end';
+      default:
+        return 'text-center items-center';
+    }
+  };
+
+  // Helper function to get background style
+  const getBackgroundStyle = (backgroundType: string, backgroundValue: string) => {
+    switch (backgroundType) {
+      case 'color':
+        return { backgroundColor: backgroundValue };
+      case 'image':
+        return { 
+          backgroundImage: `url(${backgroundValue})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        };
+      case 'video':
+        return { backgroundColor: '#000' }; // Fallback for video
+      default:
+        return { backgroundColor: '#6366f1' };
+    }
+  };
+
   return (
     <Card className="h-full">
       <CardContent className="p-0">
-        <div className="bg-gray-500 aspect-[9/16] w-full max-h-[98lvh] flex flex-col text-center overflow-y-auto">
+        <div className="aspect-[9/16] w-full max-h-[98lvh] flex flex-col text-center overflow-y-auto">
           {/* Header Section */}
           <header className="bg-white text-gray-800 px-8 py-4 flex justify-between items-center">
             <div className="text-xl font-bold">
@@ -47,11 +98,92 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
             </div>
           </header>
 
-          {/* Hero Section */}
-          <div className="text-white p-8 flex-1 flex flex-col justify-center">
-            <h1 className="text-4xl font-bold">{content.hero.headline}</h1>
-            <p className="mt-2 text-lg">{content.hero.sub_headline}</p>
-            <Button className="mt-4 mx-auto">{content.cta.button_text}</Button>
+          {/* Enhanced Hero Section */}
+          <div 
+            className={`text-white p-8 flex-1 flex flex-col justify-center relative min-h-[500px] ${getLayoutClasses(content.hero.layout)}`}
+            style={getBackgroundStyle(content.hero.background_type, content.hero.background_value)}
+          >
+            {/* Video Background */}
+            {content.hero.background_type === 'video' && content.hero.background_value && (
+              <video
+                autoPlay
+                muted
+                loop
+                className="absolute inset-0 w-full h-full object-cover"
+              >
+                <source src={content.hero.background_value} type="video/mp4" />
+              </video>
+            )}
+            
+            {/* Overlay for better text readability */}
+            <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+            
+            {/* Hero Content */}
+            <div className="relative z-10 max-w-4xl mx-auto w-full">
+              <div className={`grid ${content.hero.visual_element ? 'md:grid-cols-2' : 'grid-cols-1'} gap-8 items-center`}>
+                {/* Text Content */}
+                <div className={`space-y-6 ${content.hero.layout === 'right-aligned' && content.hero.visual_element ? 'md:order-2' : ''}`}>
+                  <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+                    {content.hero.headline}
+                  </h1>
+                  <p className="text-xl md:text-2xl text-gray-100 leading-relaxed">
+                    {content.hero.sub_headline}
+                  </p>
+                  {content.hero.value_proposition && (
+                    <p className="text-lg text-blue-200 font-medium">
+                      {content.hero.value_proposition}
+                    </p>
+                  )}
+                  <div className="pt-4">
+                    <button 
+                      className={getButtonClassName(content.hero.cta_button.style, content.hero.cta_button.size)}
+                    >
+                      {content.hero.cta_button.text}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Visual Element */}
+                {content.hero.visual_element && (
+                  <div className="flex justify-center">
+                    {content.hero.visual_element.type === 'image' ? (
+                      <div className="relative">
+                        <img
+                          src={content.hero.visual_element.url || '/placeholder.svg'}
+                          alt={content.hero.visual_element.alt_text || 'Hero visual'}
+                          className="rounded-lg shadow-2xl max-w-full h-auto"
+                          style={{ maxWidth: '400px', maxHeight: '300px' }}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNTAgMTAwSDI1MFYyMDBIMTUwVjEwMFoiIGZpbGw9IiNEMUQ1REIiLz4KPHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBzdHlsZT0icG9zaXRpb246IGFic29sdXRlOyB0b3A6IDUwJTsgbGVmdDogNTAlOyB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLCAtNTAlKTsiPgo8cGF0aCBkPSJNMzUgNUg1QzIuMjM4NTggNSAwIDcuMjM4NTggMCAxMFYzMEMwIDMyLjc2MTQgMi4yMzg1OCAzNSA1IDM1SDM1QzM3Ljc2MTQgMzUgNDAgMzIuNzYxNCA0MCAzMFYxMEM0MCA3LjIzODU4IDM3Ljc2MTQgNSAzNSA1WiIgZmlsbD0iIzlDQTNBRiIvPgo8cGF0aCBkPSJNMTUgMTVDMTcuNzYxNCAxNSAyMCAxMi43NjE0IDIwIDEwQzIwIDcuMjM4NTggMTcuNzYxNCA1IDE1IDVDMTIuMjM4NiA1IDEwIDcuMjM4NTggMTAgMTBDMTAgMTIuNzYxNCAxMi4yMzg2IDE1IDE1IDE1WiIgZmlsbD0iIzZCNzI4MCIvPgo8cGF0aCBkPSJNNSAzMEwxNSAyMEwyNSAzMEg1WiIgZmlsbD0iIzZCNzI4MCIvPgo8L3N2Zz4KPC9zdmc+';
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <video
+                        controls
+                        className="rounded-lg shadow-2xl max-w-full h-auto"
+                        style={{ maxWidth: '400px' }}
+                        onError={(e) => {
+                          const target = e.target as HTMLVideoElement;
+                          target.style.display = 'none';
+                          // Create fallback div
+                          const fallback = document.createElement('div');
+                          fallback.className = 'rounded-lg shadow-2xl bg-gray-200 flex items-center justify-center text-gray-500';
+                          fallback.style.width = '400px';
+                          fallback.style.height = '300px';
+                          fallback.innerHTML = 'Video unavailable';
+                          target.parentNode?.appendChild(fallback);
+                        }}
+                      >
+                        <source src={content.hero.visual_element.url} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Features Section */}

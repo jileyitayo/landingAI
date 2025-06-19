@@ -11,6 +11,38 @@ import { Card } from '@/app/components/ui/card';
 export default function Home() {
   const [draftContent, setDraftContent] = useState<LandingPageContent | null>(null);
   const [niche, setNiche] = useState('');
+  const [heroCustomizations, setHeroCustomizations] = useState<any>(null);
+
+  const handleHeroChange = (heroData: any) => {
+    setHeroCustomizations(heroData);
+    
+    // If we have existing draft content, update it with the new hero data
+    if (draftContent) {
+      const updatedContent: LandingPageContent = {
+        ...draftContent,
+        hero: {
+          ...draftContent.hero,
+          headline: heroData.headline,
+          sub_headline: heroData.subHeadline,
+          background_type: heroData.backgroundType,
+          background_value: heroData.backgroundValue,
+          layout: heroData.layout,
+          cta_button: {
+            text: heroData.ctaText,
+            style: heroData.ctaStyle,
+            size: heroData.ctaSize,
+          },
+          value_proposition: heroData.valueProposition,
+          visual_element: heroData.visualUrl ? {
+            type: heroData.visualType,
+            url: heroData.visualUrl,
+            alt_text: 'Hero visual element'
+          } : undefined
+        }
+      };
+      setDraftContent(updatedContent);
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-4 h-screen bg-gray-50 dark:bg-gray-900">
@@ -24,7 +56,11 @@ export default function Home() {
             <ChatPanel onDraftGenerated={setDraftContent} niche={niche} />
           </TabsContent>
           <TabsContent value="customize" className="flex-1 overflow-auto">
-              <CustomizationPanel onNicheChange={setNiche} />
+              <CustomizationPanel 
+                onNicheChange={setNiche} 
+                onHeroChange={handleHeroChange}
+                aiGeneratedContent={draftContent}
+              />
           </TabsContent>
         </Tabs>
       </div>
