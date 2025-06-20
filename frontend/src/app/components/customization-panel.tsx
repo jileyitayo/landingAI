@@ -12,6 +12,7 @@ import { HeroCustomization } from "@/app/components/customization-section/hero-c
 import { FeaturesSectionCustomization } from "@/app/components/customization-section/features-section-customization";
 import useLandingPageStore from "@/lib/store";
 import TestimonialsCustomization from "@/app/components/customization-section/testimonials-customization";
+import CtaSectionCustomization from "@/app/components/customization-section/cta-section-customization";
 
 interface CustomizationPanelProps {
   onNicheChange: (niche: string) => void;
@@ -96,11 +97,12 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
       </CardHeader>
       <CardContent className="p-0">
         <Tabs defaultValue="niche" className="h-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="niche">Niche & Basic</TabsTrigger>
             <TabsTrigger value="hero">Hero Section</TabsTrigger>
             <TabsTrigger value="features">Features</TabsTrigger>
             <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
+            <TabsTrigger value="cta">CTA</TabsTrigger>
           </TabsList>
           
           <TabsContent value="niche" className="p-4 space-y-6">
@@ -167,6 +169,9 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
           </TabsContent>
           <TabsContent value="testimonials">
             <TestimonialsCustomization />
+          </TabsContent>
+          <TabsContent value="cta">
+            <CtaSectionCustomization />
           </TabsContent>
         </Tabs>
       </CardContent>

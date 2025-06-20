@@ -5,6 +5,7 @@ import { LandingPageContent } from "@/app/types";
 import { HeroPreview } from "@/app/components/preview-sections/hero-preview";
 import { FeaturesSectionPreview } from "@/app/components/preview-sections/features-section-preview";
 import TestimonialsPreview from "@/app/components/preview-sections/testimonials-preview";
+import CtaSectionPreview from "@/app/components/preview-sections/cta-section-preview";
 
 interface PreviewPanelProps {
   content: LandingPageContent | null;
@@ -123,11 +124,7 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
 
           <TestimonialsPreview />
 
-          {/* CTA Section */}
-          <div className="text-white p-8 bg-gray-800">
-            <h2 className="text-2xl font-bold mb-4">{content.cta.headline}</h2>
-            <Button className="mx-auto">{content.cta.button_text}</Button>
-          </div>
+          <CtaSectionPreview />
 
           {/* Footer */}
           <footer className="bg-gray-900 text-white p-4 text-center">
