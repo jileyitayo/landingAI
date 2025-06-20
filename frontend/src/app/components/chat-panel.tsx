@@ -30,24 +30,27 @@ export const ChatPanel = ({ onDraftGenerated, niche }: ChatPanelProps) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/v1/generate-draft', {
+      const response = await fetch('http://localhost:8000/api/generate-landing-page', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt: text, niche: niche }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ niche: niche, prompt: text }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch from the API');
+        const errorBody = await response.text();
+        console.error("Error from API:", response.status, errorBody);
+        throw new Error('Failed to generate content');
       }
 
       const data = await response.json();
-      console.log(data);
 
-      // The AI response is a stringified JSON, so we need to parse it.
-      const draftContent = JSON.parse(data.draft_content);
-      onDraftGenerated(draftContent);
+      if (!data.draft_content) {
+        console.error("Invalid response from API, missing draft_content:", data);
+        throw new Error("Invalid response from API");
+      }
+
+      const content = JSON.parse(data.draft_content);
+      onDraftGenerated(content);
 
       const aiMessage: Message = {
         id: Date.now().toString(),
@@ -56,9 +59,10 @@ export const ChatPanel = ({ onDraftGenerated, niche }: ChatPanelProps) => {
       };
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
+      console.error('Error generating draft:', error);
       const errorMessage: Message = {
         id: Date.now().toString(),
-        text: 'Sorry, something went wrong.',
+        text: 'Sorry, something went wrong. Please check the console for details.',
         isUser: false,
       };
       setMessages((prev) => [...prev, errorMessage]);

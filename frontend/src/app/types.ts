@@ -10,14 +10,8 @@ export interface LandingPageContent {
     hero: {
       headline: string;
       sub_headline: string;
-      headline_font_size?: number;
-      headline_bold?: boolean;
-      headline_italic?: boolean;
-      sub_headline_font_size?: number;
       background_type: 'color' | 'image' | 'video';
       background_value: string; // color hex, image URL, or video URL
-      overlay_color?: string;
-      overlay_opacity?: number;
       layout: 'centered' | 'left-aligned' | 'right-aligned';
       visual_element?: {
         type: 'image' | 'video';
@@ -26,11 +20,18 @@ export interface LandingPageContent {
       };
       cta_button: {
         text: string;
-        url?: string;
         style: 'primary' | 'secondary' | 'outline';
         size: 'sm' | 'md' | 'lg';
+        href?: string;
       };
       value_proposition?: string;
+      headline_font_size?: string;
+      headline_bold?: boolean;
+      headline_italic?: boolean;
+      sub_headline_font_size?: string;
+      background_video_url?: string;
+      overlay_color?: string;
+      overlay_opacity?: number;
     };
     features: {
       title: string;
@@ -47,4 +48,26 @@ export interface LandingPageContent {
     footer: {
       text: string;
     };
+  } 
+
+  export interface HeroData {
+    headline: string;
+    subHeadline: string;
+    backgroundType: 'color' | 'image' | 'video';
+    backgroundValue: string;
+    layout: 'centered' | 'left-aligned' | 'right-aligned';
+    ctaText: string;
+    ctaLink: string;
+    ctaStyle: 'primary' | 'secondary' | 'outline';
+    ctaSize: 'sm' | 'md' | 'lg';
+    valueProposition: string;
+    visualUrl: string;
+    visualType: 'image' | 'video';
+    headlineFontSize: string;
+    headlineBold: boolean;
+    headlineItalic: boolean;
+    subHeadlineFontSize: string;
+    backgroundVideoUrl: string;
+    overlayColor: string;
+    overlayOpacity: number;
   } 

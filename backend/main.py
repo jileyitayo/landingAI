@@ -59,7 +59,7 @@ class DraftRequest(BaseModel):
 def read_root():
     return {"Hello": "World"}
 
-@app.post("/api/v1/generate-draft")
+@app.post("/api/generate-landing-page")
 async def generate_draft(request: DraftRequest):
     """
     Generates a landing page draft using an AI model with niche-specific content including header.
@@ -74,13 +74,17 @@ async def generate_draft(request: DraftRequest):
         "  • niche – the niche provided, verbatim,\n"
         "  • header – an object with 'logo_text' (brand name) and 'menu_items' (array of objects with 'label' and 'href'),\n"
         "  • hero – an object with:\n"
-        "    - 'headline' and 'sub_headline'\n"
+        "    - 'headline', 'sub_headline', 'value_proposition' (optional)\n"
+        "    - 'headline_font_size' (e.g., 'text-5xl'), 'headline_bold' (boolean), 'headline_italic' (boolean)\n"
+        "    - 'sub_headline_font_size' (e.g., 'text-xl')\n"
+        "    - 'cta_button' (object with 'text', 'href' URL, 'style', 'size')\n"
         "    - 'background_type' ('color', 'image', or 'video')\n"
-        "    - 'background_value' (hex color, image URL, or video URL)\n"
-        "    - 'layout' ('centered', 'left-aligned', or 'right-aligned')\n"
+        "    - 'background_value' (hex color or image URL)\n"
+        "    - 'background_video_url' (YouTube/Vimeo URL if background_type is 'video')\n"
+        "    - 'overlay_color' (e.g., 'rgba(0, 0, 0, 0.5)')\n"
+        "    - 'overlay_opacity' (a number between 0 and 1)\n"
+        "    - 'layout' ('centered', 'left-aligned', 'right-aligned')\n"
         "    - 'visual_element' (optional object with 'type', 'url', 'alt_text')\n"
-        "    - 'cta_button' (object with 'text', 'style', 'size')\n"
-        "    - 'value_proposition' (optional compelling benefit statement)\n"
         "  • features – an array of {{title, description}}, emphasising benefits,\n"
         "  • testimonials – an array of {{quote, author}},\n"
         "  • cta – an object with 'headline' and 'button_text',\n"
@@ -89,6 +93,10 @@ async def generate_draft(request: DraftRequest):
         "For the hero section:\n"
         "- Choose appropriate background (gradient colors for modern look, reliable image URLs from unsplash.com or picsum.photos, or demo videos)\n"
         "- Select layout based on niche (centered for SaaS, left-aligned for professional services)\n"
+        "- For fonts, suggest appropriate Tailwind CSS size classes (e.g., 'text-5xl' for headline, 'text-xl' for sub-headline) and boolean for bold/italic.\n"
+        "- For CTA button, include a placeholder href like '#'.\n"
+        "- For video backgrounds, provide a sample YouTube or Vimeo URL.\n"
+        "- For overlay, suggest a semi-transparent dark color like 'rgba(0, 0, 0, 0.5)' and an opacity value.\n"
         "- Include visual elements when relevant (use reliable image URLs like https://images.unsplash.com/photo-[id] or https://picsum.photos/400/300)\n"
         "- Style CTA buttons appropriately ('primary' for main action, 'secondary' for less emphasis)\n"
         "- Add compelling value propositions that highlight key benefits\n"

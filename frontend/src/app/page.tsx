@@ -1,22 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { ChatPanel } from "./components/chat-panel";
 import { CustomizationPanel } from "./components/customization-panel";
 import { PreviewPanel } from "./components/preview-panel";
-import { LandingPageContent } from './types';
+import { LandingPageContent, HeroData } from './types';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/app/components/ui/tabs";
-import { Card } from '@/app/components/ui/card';
 
 export default function Home() {
   const [draftContent, setDraftContent] = useState<LandingPageContent | null>(null);
   const [niche, setNiche] = useState('');
-  const [heroCustomizations, setHeroCustomizations] = useState<any>(null);
 
-  const handleHeroChange = (heroData: any) => {
-    setHeroCustomizations(heroData);
-    
-    // If we have existing draft content, update it with the new hero data
+  const handleHeroChange = useCallback((heroData: HeroData) => {
     if (draftContent) {
       const updatedContent: LandingPageContent = {
         ...draftContent,
@@ -24,32 +19,34 @@ export default function Home() {
           ...draftContent.hero,
           headline: heroData.headline,
           sub_headline: heroData.subHeadline,
-          headline_font_size: heroData.headlineFontSize,
-          headline_bold: heroData.headlineBold,
-          headline_italic: heroData.headlineItalic,
-          sub_headline_font_size: heroData.subHeadlineFontSize,
           background_type: heroData.backgroundType,
           background_value: heroData.backgroundValue,
-          overlay_color: heroData.overlayColor,
-          overlay_opacity: heroData.overlayOpacity,
           layout: heroData.layout,
           cta_button: {
+            ...draftContent.hero.cta_button,
             text: heroData.ctaText,
-            url: heroData.ctaUrl,
             style: heroData.ctaStyle,
             size: heroData.ctaSize,
+            href: heroData.ctaLink,
           },
           value_proposition: heroData.valueProposition,
           visual_element: heroData.visualUrl ? {
             type: heroData.visualType,
             url: heroData.visualUrl,
             alt_text: 'Hero visual element'
-          } : undefined
+          } : undefined,
+          headline_font_size: heroData.headlineFontSize,
+          headline_bold: heroData.headlineBold,
+          headline_italic: heroData.headlineItalic,
+          sub_headline_font_size: heroData.subHeadlineFontSize,
+          background_video_url: heroData.backgroundVideoUrl,
+          overlay_color: heroData.overlayColor,
+          overlay_opacity: heroData.overlayOpacity,
         }
       };
       setDraftContent(updatedContent);
     }
-  };
+  }, [draftContent]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-4 h-screen bg-gray-50 dark:bg-gray-900">

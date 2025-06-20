@@ -1,6 +1,6 @@
 import { Button } from "@/app/components/ui/button";
 import { Card, CardContent } from "@/app/components/ui/card";
-import { Leaf, Droplets, TestTubeDiagonal } from "lucide-react";
+import { Leaf } from "lucide-react";
 import { LandingPageContent } from "../types";
 import Image from "next/image";
 
@@ -69,6 +69,23 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
     }
   };
 
+  // Helper to extract video ID from YouTube/Vimeo URL
+  const getEmbedUrl = (url: string) => {
+    if (!url) return null;
+    let videoId;
+    if (url.includes('youtube.com/watch')) {
+      videoId = new URL(url).searchParams.get('v');
+      return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&autohide=1&modestbranding=1`;
+    } else if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1];
+      return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&autohide=1&modestbranding=1`;
+    } else if (url.includes('vimeo.com/')) {
+      videoId = url.split('vimeo.com/')[1];
+      return `https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&background=1`;
+    }
+    return null; // Not a supported URL
+  };
+
   return (
     <Card className="h-full">
       <CardContent className="p-0">
@@ -104,47 +121,39 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
             style={getBackgroundStyle(content.hero.background_type, content.hero.background_value)}
           >
             {/* Video Background */}
-            {content.hero.background_type === 'video' && content.hero.background_value && (
-              <video
-                autoPlay
-                muted
-                loop
-                className="absolute inset-0 w-full h-full object-cover"
-              >
-                <source src={content.hero.background_value} type="video/mp4" />
-              </video>
+            {content.hero.background_type === 'video' && content.hero.background_video_url && (
+              <div className="absolute inset-0 w-full h-full overflow-hidden">
+                <iframe
+                  src={getEmbedUrl(content.hero.background_video_url) || ''}
+                  frameBorder="0"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                  className="absolute top-1/2 left-1/2 w-full h-full -translate-x-1/2 -translate-y-1/2"
+                  style={{ minWidth: '177.77vh', minHeight: '100vw' }} // Maintain 16:9 aspect ratio
+                ></iframe>
+              </div>
             )}
             
-            {/* Dynamic Overlay for better text readability */}
-            <div 
-              className="absolute inset-0" 
-              style={{
-                backgroundColor: content.hero.overlay_color || '#000000',
-                opacity: (content.hero.overlay_opacity || 30) / 100
-              }}
-            ></div>
+            {/* Overlay for better text readability */}
+            {(content.hero.background_type === 'image' || content.hero.background_type === 'video') && (
+              <div 
+                className="absolute inset-0"
+                style={{
+                  backgroundColor: content.hero.overlay_color || 'rgba(0,0,0,0.5)',
+                  opacity: content.hero.overlay_opacity || 0.5
+                }}
+              ></div>
+            )}
             
             {/* Hero Content */}
             <div className="relative z-10 max-w-4xl mx-auto w-full">
               <div className={`grid ${content.hero.visual_element ? 'md:grid-cols-2' : 'grid-cols-1'} gap-8 items-center`}>
                 {/* Text Content */}
                 <div className={`space-y-6 ${content.hero.layout === 'right-aligned' && content.hero.visual_element ? 'md:order-2' : ''}`}>
-                  <h1 
-                    className="leading-tight"
-                    style={{
-                      fontSize: `${content.hero.headline_font_size || 48}px`,
-                      fontWeight: content.hero.headline_bold ? 'bold' : 'normal',
-                      fontStyle: content.hero.headline_italic ? 'italic' : 'normal'
-                    }}
-                  >
+                  <h1 className={`font-bold leading-tight ${content.hero.headline_font_size || 'text-4xl md:text-6xl'} ${content.hero.headline_bold ? 'font-extrabold' : 'font-bold'} ${content.hero.headline_italic ? 'italic' : ''}`}>
                     {content.hero.headline}
                   </h1>
-                  <p 
-                    className="text-gray-100 leading-relaxed"
-                    style={{
-                      fontSize: `${content.hero.sub_headline_font_size || 24}px`
-                    }}
-                  >
+                  <p className={`text-gray-100 leading-relaxed ${content.hero.sub_headline_font_size || 'text-xl md:text-2xl'}`}>
                     {content.hero.sub_headline}
                   </p>
                   {content.hero.value_proposition && (
@@ -153,11 +162,12 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
                     </p>
                   )}
                   <div className="pt-4">
-                    <a 
-                      href={content.hero.cta_button.url || '#'}
-                      className={getButtonClassName(content.hero.cta_button.style, content.hero.cta_button.size) + ' inline-block'}
-                    >
-                      {content.hero.cta_button.text}
+                    <a href={content.hero.cta_button.href || '#'} target="_blank" rel="noopener noreferrer">
+                      <button 
+                        className={getButtonClassName(content.hero.cta_button.style, content.hero.cta_button.size)}
+                      >
+                        {content.hero.cta_button.text}
+                      </button>
                     </a>
                   </div>
                 </div>
@@ -167,9 +177,11 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
                   <div className="flex justify-center">
                     {content.hero.visual_element.type === 'image' ? (
                       <div className="relative">
-                        <img
+                        <Image
                           src={content.hero.visual_element.url || '/placeholder.svg'}
                           alt={content.hero.visual_element.alt_text || 'Hero visual'}
+                          width={400}
+                          height={300}
                           className="rounded-lg shadow-2xl max-w-full h-auto"
                           style={{ maxWidth: '400px', maxHeight: '300px' }}
                           onError={(e) => {
@@ -225,7 +237,7 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
             <div className="space-y-6">
               {content.testimonials.map((testimonial, index) => (
                 <div key={index} className="bg-gray-800 p-4 rounded-lg">
-                  <p className="italic mb-2">"{testimonial.quote}"</p>
+                  <p className="italic mb-2">&quot;{testimonial.quote}&quot;</p>
                   <p className="font-bold text-sm">- {testimonial.author}</p>
                 </div>
               ))}
