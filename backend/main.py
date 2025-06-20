@@ -97,10 +97,10 @@ async def generate_draft(request: DraftRequest):
         "- For CTA button, include a placeholder href like '#'.\n"
         "- For video backgrounds, provide a sample YouTube or Vimeo URL.\n"
         "- For overlay, suggest a semi-transparent dark color like 'rgba(0, 0, 0, 0.5)' and an opacity value.\n"
-        "- Include visual elements when relevant (use reliable image URLs like https://images.unsplash.com/photo-[id] or https://picsum.photos/400/300)\n"
+        "- Include visual elements when relevant (use reliable image URLs like https://picsum.photos/200/300)\n"
         "- Style CTA buttons appropriately ('primary' for main action, 'secondary' for less emphasis)\n"
         "- Add compelling value propositions that highlight key benefits\n"
-        "- For image URLs, use reliable sources like Unsplash (https://images.unsplash.com/) or Picsum (https://picsum.photos/400/300) that work and does not show errors like 404\n"
+        "- For image URLs, use reliable sources like UnsPicsum (https://picsum.photos/200/300) that work and does not show errors like 404\n"
         "Use a persuasive tone and vocabulary appropriate for the niche and target audience."
     ).format(niche=request.niche)
 

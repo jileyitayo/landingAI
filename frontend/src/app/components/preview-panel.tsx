@@ -4,6 +4,7 @@ import { Leaf } from "lucide-react";
 import { LandingPageContent } from "@/app/types";
 import { HeroPreview } from "@/app/components/preview-sections/hero-preview";
 import { FeaturesSectionPreview } from "@/app/components/preview-sections/features-section-preview";
+import TestimonialsPreview from "@/app/components/preview-sections/testimonials-preview";
 
 interface PreviewPanelProps {
   content: LandingPageContent | null;
@@ -120,18 +121,7 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
 
           <FeaturesSectionPreview />
 
-          {/* Testimonials Section */}
-          <div className="text-white p-8 bg-gray-700">
-            <h2 className="text-2xl font-bold mb-6">Testimonials</h2>
-            <div className="space-y-6">
-              {content.testimonials.map((testimonial, index) => (
-                <div key={index} className="bg-gray-800 p-4 rounded-lg">
-                  <p className="italic mb-2">&quot;{testimonial.quote}&quot;</p>
-                  <p className="font-bold text-sm">- {testimonial.author}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <TestimonialsPreview />
 
           {/* CTA Section */}
           <div className="text-white p-8 bg-gray-800">

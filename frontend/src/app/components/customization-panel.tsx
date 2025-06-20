@@ -11,6 +11,7 @@ import { LandingPageContent, HeroData } from "@/app/types";
 import { HeroCustomization } from "@/app/components/customization-section/hero-customization";
 import { FeaturesSectionCustomization } from "@/app/components/customization-section/features-section-customization";
 import useLandingPageStore from "@/lib/store";
+import TestimonialsCustomization from "@/app/components/customization-section/testimonials-customization";
 
 interface CustomizationPanelProps {
   onNicheChange: (niche: string) => void;
@@ -40,7 +41,7 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
         ctaStyle: aiHero.cta_button?.style || 'primary',
         ctaSize: aiHero.cta_button?.size || 'lg',
         valueProposition: aiHero.value_proposition || 'Transform your business with our innovative solution',
-        visualUrl: aiHero.visual_element?.url || 'https://placekitten.com/500/500',
+        visualUrl: aiHero.visual_element?.url || 'https://picsum.photos/500/500',
         visualType: aiHero.visual_element?.type || 'image',
         enableVisualElement: !!aiHero.visual_element,
         headlineFontSize: 'text-5xl',
@@ -95,10 +96,11 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
       </CardHeader>
       <CardContent className="p-0">
         <Tabs defaultValue="niche" className="h-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="niche">Niche & Basic</TabsTrigger>
             <TabsTrigger value="hero">Hero Section</TabsTrigger>
             <TabsTrigger value="features">Features</TabsTrigger>
+            <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
           </TabsList>
           
           <TabsContent value="niche" className="p-4 space-y-6">
@@ -162,6 +164,9 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
           </TabsContent>
           <TabsContent value="features">
             <FeaturesSectionCustomization />
+          </TabsContent>
+          <TabsContent value="testimonials">
+            <TestimonialsCustomization />
           </TabsContent>
         </Tabs>
       </CardContent>

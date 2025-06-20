@@ -37,6 +37,10 @@ const FeatureBlockPreview = ({ featureId }: { featureId: string }) => {
 export const FeaturesSectionPreview = () => {
   const { features } = useLandingPageStore();
 
+  if (!features || features.items.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">

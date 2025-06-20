@@ -18,7 +18,6 @@ const nextConfig: NextConfig = {
       'example.com',
       'images.unsplash.com',
       'via.placeholder.com',
-      'placekitten.com',
       'picsum.photos',
       'source.unsplash.com',
       'cdn.pixabay.com',
