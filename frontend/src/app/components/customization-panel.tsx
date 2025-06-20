@@ -17,53 +17,11 @@ import GeneralSettingsCustomization from "@/app/components/customization-section
 
 interface CustomizationPanelProps {
   onNicheChange: (niche: string) => void;
-  aiGeneratedContent?: LandingPageContent | null;
 }
 
 export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({ 
   onNicheChange, 
-  aiGeneratedContent
 }) => {
-  const hasLoadedAIContent = useRef(false);
-  const { hero, setHero } = useLandingPageStore();
-  
-  // Update hero data when AI content is generated (only once per content)
-  useEffect(() => {
-    if (aiGeneratedContent?.hero && !hasLoadedAIContent.current) {
-      const aiHero = aiGeneratedContent.hero;
-      const updatedHeroData = {
-        headline: aiHero.headline || 'Your Compelling Headline Here',
-        subHeadline: aiHero.sub_headline || 'Supporting subtitle that explains your value proposition',
-        backgroundType: aiHero.background_type || 'color',
-        backgroundValue: aiHero.background_value || '#6366f1',
-        layout: aiHero.layout || 'centered',
-        ctaText: aiHero.cta_button?.text || 'Get Started',
-        ctaStyle: aiHero.cta_button?.style || 'primary',
-        ctaSize: aiHero.cta_button?.size || 'lg',
-        valueProposition: aiHero.value_proposition || 'Transform your business with our innovative solution',
-        visualUrl: aiHero.visual_element?.url || 'https://picsum.photos/500/500',
-        visualType: aiHero.visual_element?.type || 'image',
-        enableVisualElement: !!aiHero.visual_element,
-        headlineFontSize: 'text-5xl',
-        headlineBold: true,
-        headlineItalic: false,
-        subHeadlineFontSize: 'text-xl',
-        ctaLink: '#',
-        backgroundVideoUrl: '',
-        overlayColor: 'rgba(0, 0, 0, 0.5)',
-        overlayOpacity: 0.5,
-      };
-      setHero(updatedHeroData);
-      hasLoadedAIContent.current = true;
-    }
-  }, [aiGeneratedContent, setHero]);
-
-  // Reset the loaded flag when a new draft is generated (indicated by niche change)
-  useEffect(() => {
-    hasLoadedAIContent.current = false;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [aiGeneratedContent?.niche]);
-
   // Predefined color palette for quick selection
   const colorPalette = [
     '#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899',
@@ -80,8 +38,8 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
       <CardContent className="p-0">
         <Tabs defaultValue="niche" className="h-full">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="niche">Niche & Basic</TabsTrigger>
-            <TabsTrigger value="hero">Hero Section</TabsTrigger>
+            <TabsTrigger value="niche">Basic</TabsTrigger>
+            <TabsTrigger value="hero">Hero</TabsTrigger>
             <TabsTrigger value="features">Features</TabsTrigger>
             <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
             <TabsTrigger value="cta">CTA</TabsTrigger>
@@ -93,7 +51,6 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
 
           <TabsContent value="hero">
             <HeroCustomization
-              aiGeneratedContent={aiGeneratedContent}
               colorPalette={colorPalette}
             />
           </TabsContent>

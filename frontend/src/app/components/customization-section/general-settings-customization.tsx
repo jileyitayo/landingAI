@@ -50,40 +50,6 @@ const GeneralSettingsCustomization = ({ onNicheChange }: GeneralSettingsCustomiz
   return (
     <div className="space-y-6 p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
       <div>
-        <h3 className="text-lg font-semibold mb-4">Business Niche</h3>
-        <div className="space-y-2">
-          <Select onValueChange={handleNicheSelect} value={selectedNiche}>
-            <SelectTrigger id="niche">
-              <SelectValue placeholder="Select a niche" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="saas">SaaS Technology</SelectItem>
-              <SelectItem value="real-estate">Real Estate</SelectItem>
-              <SelectItem value="ecommerce">E-commerce</SelectItem>
-              <SelectItem value="startup">Tech Startup</SelectItem>
-              <SelectItem value="fitness">Fitness & Wellness</SelectItem>
-              <SelectItem value="consulting">Business Consulting</SelectItem>
-              <SelectItem value="restaurant">Restaurant & Food</SelectItem>
-              <SelectItem value="healthcare">Healthcare Services</SelectItem>
-              <SelectItem value="education">Education & Training</SelectItem>
-              <SelectItem value="custom">Custom (specify below)</SelectItem>
-            </SelectContent>
-          </Select>
-          {selectedNiche === 'custom' && (
-            <div className="mt-2">
-              <Label htmlFor="custom-niche">Custom Niche</Label>
-              <Input
-                id="custom-niche"
-                placeholder="Describe your specific business niche"
-                value={customNiche}
-                onChange={handleCustomNicheChange}
-                className="mt-1"
-              />
-            </div>
-          )}
-        </div>
-      </div>
-      <div>
         <h3 className="text-lg font-semibold mb-4">Header Settings</h3>
         <div className="space-y-2">
           <Label htmlFor="logo-text">Logo Text</Label>
@@ -122,7 +88,40 @@ const GeneralSettingsCustomization = ({ onNicheChange }: GeneralSettingsCustomiz
             </Button>
         </div>
       </div>
-      
+      <div>
+        <h3 className="text-lg font-semibold mb-4">Business Niche</h3>
+        <div className="space-y-2">
+          <Select onValueChange={handleNicheSelect} value={selectedNiche}>
+            <SelectTrigger id="niche">
+              <SelectValue placeholder="Select a niche" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="saas">SaaS Technology</SelectItem>
+              <SelectItem value="real-estate">Real Estate</SelectItem>
+              <SelectItem value="ecommerce">E-commerce</SelectItem>
+              <SelectItem value="startup">Tech Startup</SelectItem>
+              <SelectItem value="fitness">Fitness & Wellness</SelectItem>
+              <SelectItem value="consulting">Business Consulting</SelectItem>
+              <SelectItem value="restaurant">Restaurant & Food</SelectItem>
+              <SelectItem value="healthcare">Healthcare Services</SelectItem>
+              <SelectItem value="education">Education & Training</SelectItem>
+              <SelectItem value="custom">Custom (specify below)</SelectItem>
+            </SelectContent>
+          </Select>
+          {selectedNiche === 'custom' && (
+            <div className="mt-2">
+              <Label htmlFor="custom-niche">Custom Niche</Label>
+              <Input
+                id="custom-niche"
+                placeholder="Describe your specific business niche"
+                value={customNiche}
+                onChange={handleCustomNicheChange}
+                className="mt-1"
+              />
+            </div>
+          )}
+        </div>
+      </div>
       <div>
         <h3 className="text-lg font-semibold mb-4">Footer Settings</h3>
         <div className="space-y-2">
