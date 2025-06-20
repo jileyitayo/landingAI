@@ -6,6 +6,8 @@ import { HeroPreview } from "@/app/components/preview-sections/hero-preview";
 import { FeaturesSectionPreview } from "@/app/components/preview-sections/features-section-preview";
 import TestimonialsPreview from "@/app/components/preview-sections/testimonials-preview";
 import CtaSectionPreview from "@/app/components/preview-sections/cta-section-preview";
+import HeaderPreview from "./preview-sections/header-preview";
+import FooterPreview from "./preview-sections/footer-preview";
 
 interface PreviewPanelProps {
   content: LandingPageContent | null;
@@ -93,30 +95,7 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
     <Card className="h-full">
       <CardContent className="p-0">
         <div className="aspect-[9/16] w-full max-h-[98lvh] flex flex-col text-center overflow-y-auto">
-          {/* Header Section */}
-          <header className="bg-white text-gray-800 px-8 py-4 flex justify-between items-center">
-            <div className="text-xl font-bold">
-              {content.header.logo_text}
-            </div>
-            <nav className="hidden md:flex space-x-6">
-              {content.header.menu_items.map((item, index) => (
-                <a
-                  key={index}
-                  href={item.href}
-                  className="text-gray-600 hover:text-gray-800 transition-colors"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-            <div className="md:hidden">
-              <button className="text-gray-600">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
-          </header>
+          <HeaderPreview />
 
           <HeroPreview />
 
@@ -126,10 +105,7 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
 
           <CtaSectionPreview />
 
-          {/* Footer */}
-          <footer className="bg-gray-900 text-white p-4 text-center">
-            <p className="text-sm">{content.footer.text}</p>
-          </footer>
+          <FooterPreview />
         </div>
       </CardContent>
     </Card>

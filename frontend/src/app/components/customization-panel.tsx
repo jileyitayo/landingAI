@@ -13,6 +13,7 @@ import { FeaturesSectionCustomization } from "@/app/components/customization-sec
 import useLandingPageStore from "@/lib/store";
 import TestimonialsCustomization from "@/app/components/customization-section/testimonials-customization";
 import CtaSectionCustomization from "@/app/components/customization-section/cta-section-customization";
+import GeneralSettingsCustomization from "@/app/components/customization-section/general-settings-customization";
 
 interface CustomizationPanelProps {
   onNicheChange: (niche: string) => void;
@@ -138,6 +139,8 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
                 </div>
               )}
             </div>
+            
+            <GeneralSettingsCustomization />
             
             <div className="space-y-2">
               <Label>Background Image</Label>
