@@ -11,43 +11,6 @@ export default function Home() {
   const [draftContent, setDraftContent] = useState<LandingPageContent | null>(null);
   const [niche, setNiche] = useState('');
 
-  const handleHeroChange = useCallback((heroData: HeroData) => {
-    if (draftContent) {
-      const updatedContent: LandingPageContent = {
-        ...draftContent,
-        hero: {
-          ...draftContent.hero,
-          headline: heroData.headline,
-          sub_headline: heroData.subHeadline,
-          background_type: heroData.backgroundType,
-          background_value: heroData.backgroundValue,
-          layout: heroData.layout,
-          cta_button: {
-            ...draftContent.hero.cta_button,
-            text: heroData.ctaText,
-            style: heroData.ctaStyle,
-            size: heroData.ctaSize,
-            href: heroData.ctaLink,
-          },
-          value_proposition: heroData.valueProposition,
-          visual_element: heroData.visualUrl ? {
-            type: heroData.visualType,
-            url: heroData.visualUrl,
-            alt_text: 'Hero visual element'
-          } : undefined,
-          headline_font_size: heroData.headlineFontSize,
-          headline_bold: heroData.headlineBold,
-          headline_italic: heroData.headlineItalic,
-          sub_headline_font_size: heroData.subHeadlineFontSize,
-          background_video_url: heroData.backgroundVideoUrl,
-          overlay_color: heroData.overlayColor,
-          overlay_opacity: heroData.overlayOpacity,
-        }
-      };
-      setDraftContent(updatedContent);
-    }
-  }, [draftContent]);
-
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 p-4 h-screen bg-gray-50 dark:bg-gray-900">
       <div className="lg:col-span-1 h-full flex flex-col">
@@ -62,7 +25,6 @@ export default function Home() {
           <TabsContent value="customize" className="flex-1 overflow-auto">
               <CustomizationPanel 
                 onNicheChange={setNiche} 
-                onHeroChange={handleHeroChange}
                 aiGeneratedContent={draftContent}
               />
           </TabsContent>

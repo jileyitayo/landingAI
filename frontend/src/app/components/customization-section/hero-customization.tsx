@@ -4,20 +4,23 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/app/components/ui/switch";
 import { Button } from "@/app/components/ui/button";
 import { HeroData, LandingPageContent } from "@/app/types";
+import useLandingPageStore from "@/lib/store";
 
 interface HeroCustomizationProps {
-  heroData: HeroData;
-  updateHeroData: (field: keyof HeroData, value: any) => void;
   aiGeneratedContent?: LandingPageContent | null;
   colorPalette: string[];
 }
 
 export const HeroCustomization = ({
-  heroData,
-  updateHeroData,
   aiGeneratedContent,
   colorPalette,
 }: HeroCustomizationProps) => {
+  const { hero, setHero } = useLandingPageStore();
+
+  const updateHeroData = (field: keyof HeroData, value: any) => {
+    setHero({ [field]: value });
+  };
+
   return (
     <div className="p-4 space-y-6 max-h-[calc(100vh-200px)] overflow-y-auto">
       {/* AI Content Status */}
@@ -36,7 +39,7 @@ export const HeroCustomization = ({
           <Label htmlFor="hero-headline">Headline</Label>
           <Input
             id="hero-headline"
-            value={heroData.headline}
+            value={hero.headline}
             onChange={(e) => updateHeroData('headline', e.target.value)}
           />
           <div className="flex items-center space-x-4">
@@ -44,7 +47,7 @@ export const HeroCustomization = ({
               <Label htmlFor="headline-bold">Bold</Label>
               <Switch
                 id="headline-bold"
-                checked={heroData.headlineBold}
+                checked={hero.headlineBold}
                 onCheckedChange={(checked) => updateHeroData('headlineBold', checked)}
               />
             </div>
@@ -52,14 +55,14 @@ export const HeroCustomization = ({
               <Label htmlFor="headline-italic">Italic</Label>
               <Switch
                 id="headline-italic"
-                checked={heroData.headlineItalic}
+                checked={hero.headlineItalic}
                 onCheckedChange={(checked) => updateHeroData('headlineItalic', checked)}
               />
             </div>
             <div className="flex items-center space-x-2">
               <Label htmlFor="headline-fontsize">Size</Label>
               <Select
-                value={heroData.headlineFontSize}
+                value={hero.headlineFontSize}
                 onValueChange={(value) => updateHeroData('headlineFontSize', value)}
               >
                 <SelectTrigger id="headline-fontsize" className="w-28">
@@ -79,13 +82,13 @@ export const HeroCustomization = ({
           <Label htmlFor="hero-subheadline">Sub-headline</Label>
           <Input
             id="hero-subheadline"
-            value={heroData.subHeadline}
+            value={hero.subHeadline}
             onChange={(e) => updateHeroData('subHeadline', e.target.value)}
           />
           <div className="flex items-center space-x-2">
             <Label htmlFor="subheadline-fontsize">Size</Label>
             <Select
-              value={heroData.subHeadlineFontSize}
+              value={hero.subHeadlineFontSize}
               onValueChange={(value) => updateHeroData('subHeadlineFontSize', value)}
             >
               <SelectTrigger id="subheadline-fontsize" className="w-28">
@@ -103,7 +106,7 @@ export const HeroCustomization = ({
           <Label htmlFor="value-prop">Value Proposition</Label>
           <Input
             id="value-prop"
-            value={heroData.valueProposition}
+            value={hero.valueProposition}
             onChange={(e) => updateHeroData('valueProposition', e.target.value)}
           />
         </div>
@@ -116,7 +119,7 @@ export const HeroCustomization = ({
           <Label htmlFor="cta-text">Button Text</Label>
           <Input
             id="cta-text"
-            value={heroData.ctaText}
+            value={hero.ctaText}
             onChange={(e) => updateHeroData('ctaText', e.target.value)}
           />
         </div>
@@ -124,7 +127,7 @@ export const HeroCustomization = ({
           <Label htmlFor="cta-link">Button Link (URL)</Label>
           <Input
             id="cta-link"
-            value={heroData.ctaLink}
+            value={hero.ctaLink}
             onChange={(e) => updateHeroData('ctaLink', e.target.value)}
             placeholder="https://example.com"
           />
@@ -137,7 +140,7 @@ export const HeroCustomization = ({
         <div className="space-y-2">
           <Label>Background Type</Label>
           <Select 
-            value={heroData.backgroundType} 
+            value={hero.backgroundType} 
             onValueChange={(value) => updateHeroData('backgroundType', value)}
           >
             <SelectTrigger>
@@ -151,7 +154,7 @@ export const HeroCustomization = ({
           </Select>
         </div>
         
-        {heroData.backgroundType === 'color' && (
+        {hero.backgroundType === 'color' && (
           <div className="space-y-3">
             <Label>Background Color</Label>
             
@@ -159,12 +162,12 @@ export const HeroCustomization = ({
             <div className="flex space-x-2">
               <input
                 type="color"
-                value={heroData.backgroundValue}
+                value={hero.backgroundValue}
                 onChange={(e) => updateHeroData('backgroundValue', e.target.value)}
                 className="w-12 h-10 rounded border cursor-pointer"
               />
               <Input
-                value={heroData.backgroundValue}
+                value={hero.backgroundValue}
                 onChange={(e) => updateHeroData('backgroundValue', e.target.value)}
                 placeholder="#000000"
                 className="flex-1"
@@ -189,33 +192,33 @@ export const HeroCustomization = ({
           </div>
         )}
 
-        {heroData.backgroundType === 'image' && (
+        {hero.backgroundType === 'image' && (
           <div className="space-y-2">
             <Label htmlFor="bg-image-upload">Upload Image</Label>
             <Input id="bg-image-upload" type="file" accept="image/*" />
             <p className="text-sm text-gray-500">Or enter image URL:</p>
             <Input
               placeholder="https://example.com/image.jpg"
-              value={heroData.backgroundValue.startsWith('http') ? heroData.backgroundValue : ''}
+              value={hero.backgroundValue.startsWith('http') ? hero.backgroundValue : ''}
               onChange={(e) => updateHeroData('backgroundValue', e.target.value)}
             />
           </div>
         )}
 
-        {heroData.backgroundType === 'video' && (
+        {hero.backgroundType === 'video' && (
           <div className="space-y-2">
             <Label htmlFor="bg-video-url">Video URL (YouTube, Vimeo)</Label>
             <Input
               id="bg-video-url"
               placeholder="https://www.youtube.com/watch?v=..."
-              value={heroData.backgroundVideoUrl}
+              value={hero.backgroundVideoUrl}
               onChange={(e) => updateHeroData('backgroundVideoUrl', e.target.value)}
             />
           </div>
         )}
 
         {/* Overlay Settings */}
-        {(heroData.backgroundType === 'image' || heroData.backgroundType === 'video') && (
+        {(hero.backgroundType === 'image' || hero.backgroundType === 'video') && (
           <div className="space-y-4 pt-4 border-t">
             <h4 className="font-semibold">Background Overlay</h4>
             <div className="space-y-2">
@@ -224,12 +227,12 @@ export const HeroCustomization = ({
                 <input
                   id="overlay-color"
                   type="color"
-                  value={heroData.overlayColor}
+                  value={hero.overlayColor}
                   onChange={(e) => updateHeroData('overlayColor', e.target.value)}
                   className="w-12 h-10 rounded border cursor-pointer"
                 />
                 <Input
-                  value={heroData.overlayColor}
+                  value={hero.overlayColor}
                   onChange={(e) => updateHeroData('overlayColor', e.target.value)}
                   placeholder="rgba(0, 0, 0, 0.5)"
                   className="flex-1"
@@ -245,11 +248,11 @@ export const HeroCustomization = ({
                   min="0"
                   max="1"
                   step="0.05"
-                  value={heroData.overlayOpacity}
+                  value={hero.overlayOpacity}
                   onChange={(e) => updateHeroData('overlayOpacity', parseFloat(e.target.value))}
                   className="w-full"
                 />
-                <span>{Math.round(heroData.overlayOpacity * 100)}%</span>
+                <span>{Math.round(hero.overlayOpacity * 100)}%</span>
               </div>
             </div>
           </div>
@@ -262,7 +265,7 @@ export const HeroCustomization = ({
         <div className="space-y-2">
           <Label>Text Alignment</Label>
           <Select 
-            value={heroData.layout} 
+            value={hero.layout} 
             onValueChange={(value) => updateHeroData('layout', value as 'centered' | 'left-aligned' | 'right-aligned')}
           >
             <SelectTrigger>
@@ -279,30 +282,40 @@ export const HeroCustomization = ({
 
       {/* Visual Element */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Visual Element</h3>
-        <div className="space-y-2">
-          <Label>Visual Type</Label>
-          <Select 
-            value={heroData.visualType} 
-            onValueChange={(value) => updateHeroData('visualType', value)}
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="image">Image</SelectItem>
-              <SelectItem value="video">Video</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold">Visual Element</h3>
+            <Switch
+                checked={hero.enableVisualElement}
+                onCheckedChange={(checked) => updateHeroData('enableVisualElement', checked)}
+            />
         </div>
-        <div className="space-y-2">
-          <Label>Visual URL</Label>
-          <Input
-            value={heroData.visualUrl}
-            onChange={(e) => updateHeroData('visualUrl', e.target.value)}
-            placeholder="https://images.unsplash.com/photo-..."
-          />
-        </div>
+        {hero.enableVisualElement && (
+            <div className="space-y-4 pl-4 border-l-2">
+                <div className="space-y-2">
+                <Label>Visual Type</Label>
+                <Select 
+                    value={hero.visualType} 
+                    onValueChange={(value) => updateHeroData('visualType', value)}
+                >
+                    <SelectTrigger>
+                    <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                    <SelectItem value="image">Image</SelectItem>
+                    <SelectItem value="video">Video</SelectItem>
+                    </SelectContent>
+                </Select>
+                </div>
+                <div className="space-y-2">
+                <Label>Visual URL</Label>
+                <Input
+                    value={hero.visualUrl}
+                    onChange={(e) => updateHeroData('visualUrl', e.target.value)}
+                    placeholder="https://images.unsplash.com/photo-..."
+                />
+                </div>
+            </div>
+        )}
       </div>
 
       {/* CTA Button Customization */}
@@ -311,7 +324,7 @@ export const HeroCustomization = ({
         <div className="space-y-2">
           <Label>Button Style</Label>
           <Select
-            value={heroData.ctaStyle}
+            value={hero.ctaStyle}
             onValueChange={(value) => updateHeroData('ctaStyle', value as 'primary' | 'secondary' | 'outline')}
           >
             <SelectTrigger>
@@ -327,7 +340,7 @@ export const HeroCustomization = ({
         <div className="space-y-2">
           <Label>Button Size</Label>
           <Select
-            value={heroData.ctaSize}
+            value={hero.ctaSize}
             onValueChange={(value) => updateHeroData('ctaSize', value as 'sm' | 'md' | 'lg')}
           >
             <SelectTrigger>

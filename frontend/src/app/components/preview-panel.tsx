@@ -1,8 +1,9 @@
 import { Button } from "@/app/components/ui/button";
 import { Card, CardContent } from "@/app/components/ui/card";
 import { Leaf } from "lucide-react";
-import { LandingPageContent } from "../types";
-import { HeroPreview } from "./preview-sections/hero-preview";
+import { LandingPageContent } from "@/app/types";
+import { HeroPreview } from "@/app/components/preview-sections/hero-preview";
+import { FeaturesSectionPreview } from "@/app/components/preview-sections/features-section-preview";
 
 interface PreviewPanelProps {
   content: LandingPageContent | null;
@@ -115,21 +116,9 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
             </div>
           </header>
 
-          <HeroPreview hero={content.hero} />
+          <HeroPreview />
 
-          {/* Features Section */}
-          <div className="text-white p-8 bg-gray-600">
-            <h2 className="text-2xl font-bold mb-6">Features</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {content.features.map((feature, index) => (
-                <div key={index} className="flex flex-col items-center text-center">
-                  <Leaf size={48} className="mb-2" />
-                  <h3 className="font-bold text-lg mb-2">{feature.title}</h3>
-                  <p className="text-sm">{feature.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <FeaturesSectionPreview />
 
           {/* Testimonials Section */}
           <div className="text-white p-8 bg-gray-700">

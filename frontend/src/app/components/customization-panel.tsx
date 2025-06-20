@@ -7,52 +7,30 @@ import { Button } from "@/app/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/app/components/ui/tabs";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import { LandingPageContent, HeroData } from "../types";
+import { LandingPageContent, HeroData } from "@/app/types";
 import { HeroCustomization } from "@/app/components/customization-section/hero-customization";
+import { FeaturesSectionCustomization } from "@/app/components/customization-section/features-section-customization";
+import useLandingPageStore from "@/lib/store";
 
 interface CustomizationPanelProps {
   onNicheChange: (niche: string) => void;
-  onHeroChange?: (heroData: HeroData) => void;
   aiGeneratedContent?: LandingPageContent | null;
 }
 
 export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({ 
   onNicheChange, 
-  onHeroChange,
   aiGeneratedContent
 }) => {
   const [customNiche, setCustomNiche] = useState('');
   const [selectedNiche, setSelectedNiche] = useState('');
   const hasLoadedAIContent = useRef(false);
+  const { hero, setHero } = useLandingPageStore();
   
-  // Hero section state
-  const [heroData, setHeroData] = useState<HeroData>({
-    headline: 'Your Compelling Headline Here',
-    subHeadline: 'Supporting subtitle that explains your value proposition',
-    backgroundType: 'color',
-    backgroundValue: '#6366f1',
-    layout: 'centered',
-    ctaText: 'Get Started',
-    ctaLink: '#',
-    ctaStyle: 'primary',
-    ctaSize: 'lg',
-    valueProposition: 'Transform your business with our innovative solution',
-    visualUrl: '',
-    visualType: 'image',
-    headlineFontSize: 'text-5xl',
-    headlineBold: true,
-    headlineItalic: false,
-    subHeadlineFontSize: 'text-xl',
-    backgroundVideoUrl: '',
-    overlayColor: 'rgba(0, 0, 0, 0.5)',
-    overlayOpacity: 0.5,
-  });
-
   // Update hero data when AI content is generated (only once per content)
   useEffect(() => {
     if (aiGeneratedContent?.hero && !hasLoadedAIContent.current) {
       const aiHero = aiGeneratedContent.hero;
-      const updatedHeroData: HeroData = {
+      const updatedHeroData = {
         headline: aiHero.headline || 'Your Compelling Headline Here',
         subHeadline: aiHero.sub_headline || 'Supporting subtitle that explains your value proposition',
         backgroundType: aiHero.background_type || 'color',
@@ -62,8 +40,9 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
         ctaStyle: aiHero.cta_button?.style || 'primary',
         ctaSize: aiHero.cta_button?.size || 'lg',
         valueProposition: aiHero.value_proposition || 'Transform your business with our innovative solution',
-        visualUrl: aiHero.visual_element?.url || '',
+        visualUrl: aiHero.visual_element?.url || 'https://placekitten.com/500/500',
         visualType: aiHero.visual_element?.type || 'image',
+        enableVisualElement: !!aiHero.visual_element,
         headlineFontSize: 'text-5xl',
         headlineBold: true,
         headlineItalic: false,
@@ -73,11 +52,10 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
         overlayColor: 'rgba(0, 0, 0, 0.5)',
         overlayOpacity: 0.5,
       };
-      setHeroData(updatedHeroData);
-      onHeroChange?.(updatedHeroData);
+      setHero(updatedHeroData);
       hasLoadedAIContent.current = true;
     }
-  }, [aiGeneratedContent, onHeroChange]);
+  }, [aiGeneratedContent, setHero]);
 
   // Reset the loaded flag when a new draft is generated (indicated by niche change)
   useEffect(() => {
@@ -102,12 +80,6 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
     }
   };
 
-  const updateHeroData = (field: keyof HeroData, value: HeroData[keyof HeroData]) => {
-    const newHeroData = { ...heroData, [field]: value };
-    setHeroData(newHeroData);
-    onHeroChange?.(newHeroData);
-  };
-
   // Predefined color palette for quick selection
   const colorPalette = [
     '#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899',
@@ -123,9 +95,10 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
       </CardHeader>
       <CardContent className="p-0">
         <Tabs defaultValue="niche" className="h-full">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="niche">Niche & Basic</TabsTrigger>
             <TabsTrigger value="hero">Hero Section</TabsTrigger>
+            <TabsTrigger value="features">Features</TabsTrigger>
           </TabsList>
           
           <TabsContent value="niche" className="p-4 space-y-6">
@@ -183,11 +156,12 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
 
           <TabsContent value="hero">
             <HeroCustomization
-              heroData={heroData}
-              updateHeroData={updateHeroData}
               aiGeneratedContent={aiGeneratedContent}
               colorPalette={colorPalette}
             />
+          </TabsContent>
+          <TabsContent value="features">
+            <FeaturesSectionCustomization />
           </TabsContent>
         </Tabs>
       </CardContent>

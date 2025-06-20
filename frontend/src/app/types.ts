@@ -70,4 +70,5 @@ export interface LandingPageContent {
     backgroundVideoUrl: string;
     overlayColor: string;
     overlayOpacity: number;
+    enableVisualElement: boolean;
   } 

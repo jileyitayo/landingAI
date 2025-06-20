@@ -1,9 +1,7 @@
-import { LandingPageContent } from "../../types";
-import Image from "next/image";
+'use client';
 
-interface HeroPreviewProps {
-  hero: LandingPageContent['hero'];
-}
+import useLandingPageStore from "@/lib/store";
+import Image from "next/image";
 
 // Helper function to get button styling
 const getButtonClassName = (style: string, size: string) => {
@@ -72,17 +70,19 @@ const getEmbedUrl = (url: string) => {
   return null; // Not a supported URL
 };
 
-export const HeroPreview = ({ hero }: HeroPreviewProps) => {
+export const HeroPreview = () => {
+  const { hero } = useLandingPageStore();
+
   return (
     <div 
       className={`text-white p-8 flex-1 flex flex-col justify-center relative min-h-[500px] ${getLayoutClasses(hero.layout)}`}
-      style={getBackgroundStyle(hero.background_type, hero.background_value)}
+      style={getBackgroundStyle(hero.backgroundType, hero.backgroundValue)}
     >
       {/* Video Background */}
-      {hero.background_type === 'video' && hero.background_video_url && (
+      {hero.backgroundType === 'video' && hero.backgroundVideoUrl && (
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <iframe
-            src={getEmbedUrl(hero.background_video_url) || ''}
+            src={getEmbedUrl(hero.backgroundVideoUrl) || ''}
             frameBorder="0"
             allow="autoplay; encrypted-media"
             allowFullScreen
@@ -93,51 +93,51 @@ export const HeroPreview = ({ hero }: HeroPreviewProps) => {
       )}
       
       {/* Overlay for better text readability */}
-      {(hero.background_type === 'image' || hero.background_type === 'video') && (
+      {(hero.backgroundType === 'image' || hero.backgroundType === 'video') && (
         <div 
           className="absolute inset-0"
           style={{
-            backgroundColor: hero.overlay_color || 'rgba(0,0,0,0.5)',
-            opacity: hero.overlay_opacity || 0.5
+            backgroundColor: hero.overlayColor || 'rgba(0,0,0,0.5)',
+            opacity: hero.overlayOpacity || 0.5
           }}
         ></div>
       )}
       
       {/* Hero Content */}
       <div className="relative z-10 max-w-4xl mx-auto w-full">
-        <div className={`grid ${hero.visual_element ? 'md:grid-cols-2' : 'grid-cols-1'} gap-8 items-center`}>
+        <div className={`grid ${hero.enableVisualElement && hero.visualUrl ? 'md:grid-cols-2' : 'grid-cols-1'} gap-8 items-center`}>
           {/* Text Content */}
-          <div className={`space-y-6 ${hero.layout === 'right-aligned' && hero.visual_element ? 'md:order-2' : ''}`}>
-            <h1 className={`font-bold leading-tight ${hero.headline_font_size || 'text-4xl md:text-6xl'} ${hero.headline_bold ? 'font-extrabold' : 'font-bold'} ${hero.headline_italic ? 'italic' : ''}`}>
+          <div className={`space-y-6 ${hero.layout === 'right-aligned' && hero.enableVisualElement && hero.visualUrl ? 'md:order-2' : ''}`}>
+            <h1 className={`font-bold leading-tight ${hero.headlineFontSize || 'text-4xl md:text-6xl'} ${hero.headlineBold ? 'font-extrabold' : 'font-bold'} ${hero.headlineItalic ? 'italic' : ''}`}>
               {hero.headline}
             </h1>
-            <p className={`text-gray-100 leading-relaxed ${hero.sub_headline_font_size || 'text-xl md:text-2xl'}`}>
-              {hero.sub_headline}
+            <p className={`text-gray-100 leading-relaxed ${hero.subHeadlineFontSize || 'text-xl md:text-2xl'}`}>
+              {hero.subHeadline}
             </p>
-            {hero.value_proposition && (
+            {hero.valueProposition && (
               <p className="text-lg text-blue-200 font-medium">
-                {hero.value_proposition}
+                {hero.valueProposition}
               </p>
             )}
             <div className="pt-4">
-              <a href={hero.cta_button.href || '#'} target="_blank" rel="noopener noreferrer">
+              <a href={hero.ctaLink || '#'} target="_blank" rel="noopener noreferrer">
                 <button 
-                  className={getButtonClassName(hero.cta_button.style, hero.cta_button.size)}
+                  className={getButtonClassName(hero.ctaStyle, hero.ctaSize)}
                 >
-                  {hero.cta_button.text}
+                  {hero.ctaText}
                 </button>
               </a>
             </div>
           </div>
 
           {/* Visual Element */}
-          {hero.visual_element && (
+          {hero.enableVisualElement && hero.visualUrl && (
             <div className="flex justify-center">
-              {hero.visual_element.type === 'image' ? (
+              {hero.visualType === 'image' ? (
                 <div className="relative">
                   <Image
-                    src={hero.visual_element.url || '/placeholder.svg'}
-                    alt={hero.visual_element.alt_text || 'Hero visual'}
+                    src={hero.visualUrl || '/placeholder.svg'}
+                    alt={'Hero visual'}
                     width={400}
                     height={300}
                     className="rounded-lg shadow-2xl max-w-full h-auto"
@@ -165,7 +165,7 @@ export const HeroPreview = ({ hero }: HeroPreviewProps) => {
                     target.parentNode?.appendChild(fallback);
                   }}
                 >
-                  <source src={hero.visual_element.url} type="video/mp4" />
+                  <source src={hero.visualUrl} type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
               )}
