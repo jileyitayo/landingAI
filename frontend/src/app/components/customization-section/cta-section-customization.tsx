@@ -14,7 +14,7 @@ const CtaSectionCustomization = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-4 max-h-[calc(100vh-200px)] overflow-y-auto">
       <h3 className="text-lg font-semibold">CTA Section</h3>
       <div className="space-y-2">
         <Label htmlFor="cta-headline">Headline</Label>
