@@ -5,7 +5,8 @@ import { FeaturesSectionCustomization } from "@/app/components/customization-sec
 import SocialProofCustomization from "@/app/components/customization-section/social-proof-customization";
 import CtaSectionCustomization from "@/app/components/customization-section/cta-section-customization";
 import GeneralSettingsCustomization from "@/app/components/customization-section/general-settings-customization";
-import { PricingSectionCustomization } from "./customization-section/pricing-section-customization";
+import { PricingSectionCustomization } from "@/app/components/customization-section/pricing-section-customization";
+import { MediaLibraryCustomization } from "@/app/components/customization-section/media-library-customization";
 
 interface CustomizationPanelProps {
   onNicheChange: (niche: string) => void;
@@ -29,8 +30,9 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
       </CardHeader>
       <CardContent className="p-0">
         <Tabs defaultValue="niche" className="h-full">
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="niche">Basic</TabsTrigger>
+            <TabsTrigger value="media">Media</TabsTrigger>
             <TabsTrigger value="hero">Hero</TabsTrigger>
             <TabsTrigger value="features">Features</TabsTrigger>
             <TabsTrigger value="pricing">Pricing</TabsTrigger>
@@ -40,6 +42,10 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
           
           <TabsContent value="niche" className="p-4 space-y-6">
             <GeneralSettingsCustomization onNicheChange={onNicheChange} />
+          </TabsContent>
+
+          <TabsContent value="media">
+            <MediaLibraryCustomization />
           </TabsContent>
 
           <TabsContent value="hero">

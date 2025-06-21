@@ -8,10 +8,12 @@ import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { Textarea } from '@/app/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/app/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/ui/dialog";
+import Image from "next/image";
 
 // Individual Editors
 const TestimonialEditor = ({ testimonial }: { testimonial: SocialProofTestimonial }) => {
-  const { updateSocialProofTestimonial, removeSocialProofTestimonial } = useLandingPageStore();
+  const { updateSocialProofTestimonial, removeSocialProofTestimonial, media } = useLandingPageStore();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -44,6 +46,35 @@ const TestimonialEditor = ({ testimonial }: { testimonial: SocialProofTestimonia
         <div>
           <Label>Media URL</Label>
           <Input name="media" value={testimonial.media} onChange={handleChange} placeholder="Image or Video URL" />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="w-full mt-2 text-xs">Select from Library</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Select an Image</DialogTitle>
+                </DialogHeader>
+                <div className="grid grid-cols-4 gap-4 py-4 max-h-[50vh] overflow-y-auto">
+                  {media.map((image) => (
+                    <div
+                      key={image.id}
+                      className="cursor-pointer border-2 border-transparent hover:border-primary rounded-md"
+                      onClick={() => {
+                        updateSocialProofTestimonial(testimonial.id, { media: image.url });
+                      }}
+                    >
+                      <Image
+                        src={image.url}
+                        alt={image.alt}
+                        width={100}
+                        height={100}
+                        className="object-cover rounded-md aspect-square"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
         </div>
       </div>
       <div>
@@ -65,7 +96,7 @@ const TestimonialEditor = ({ testimonial }: { testimonial: SocialProofTestimonia
 };
 
 const LogoEditor = ({ logo }: { logo: ClientLogo }) => {
-    const { updateClientLogo, removeClientLogo } = useLandingPageStore();
+    const { updateClientLogo, removeClientLogo, media } = useLandingPageStore();
   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -82,6 +113,35 @@ const LogoEditor = ({ logo }: { logo: ClientLogo }) => {
           <div>
             <Label>Logo URL</Label>
             <Input name="src" value={logo.src} onChange={handleChange} />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="w-full mt-2 text-xs">Select from Library</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Select an Image</DialogTitle>
+                </DialogHeader>
+                <div className="grid grid-cols-4 gap-4 py-4 max-h-[50vh] overflow-y-auto">
+                  {media.map((image) => (
+                    <div
+                      key={image.id}
+                      className="cursor-pointer border-2 border-transparent hover:border-primary rounded-md"
+                      onClick={() => {
+                        updateClientLogo(logo.id, { src: image.url });
+                      }}
+                    >
+                      <Image
+                        src={image.url}
+                        alt={image.alt}
+                        width={100}
+                        height={100}
+                        className="object-cover rounded-md aspect-square"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
           <div>
             <Label>Alt Text</Label>
@@ -136,7 +196,7 @@ const LogoEditor = ({ logo }: { logo: ClientLogo }) => {
   };
 
   const AwardEditor = ({ award }: { award: Award }) => {
-    const { updateAward, removeAward } = useLandingPageStore();
+    const { updateAward, removeAward, media } = useLandingPageStore();
   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -167,6 +227,35 @@ const LogoEditor = ({ logo }: { logo: ClientLogo }) => {
             <div>
                 <Label>Image URL</Label>
                 <Input name="image" value={award.image} onChange={handleChange} />
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="w-full mt-2 text-xs">Select from Library</Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Select an Image</DialogTitle>
+                    </DialogHeader>
+                    <div className="grid grid-cols-4 gap-4 py-4 max-h-[50vh] overflow-y-auto">
+                      {media.map((image) => (
+                        <div
+                          key={image.id}
+                          className="cursor-pointer border-2 border-transparent hover:border-primary rounded-md"
+                          onClick={() => {
+                            updateAward(award.id, { image: image.url });
+                          }}
+                        >
+                          <Image
+                            src={image.url}
+                            alt={image.alt}
+                            width={100}
+                            height={100}
+                            className="object-cover rounded-md aspect-square"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </DialogContent>
+                </Dialog>
             </div>
         </div>
       </div>

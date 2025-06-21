@@ -8,13 +8,15 @@ import { Switch } from "@/app/components/ui/switch";
 import { Button } from "@/app/components/ui/button";
 import { HeroData } from "@/app/types";
 import useLandingPageStore from "@/lib/store";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/ui/dialog";
+import Image from "next/image";
 
 interface HeroCustomizationProps {
   colorPalette: string[];
 }
 
 export const HeroCustomization = ({ colorPalette }: HeroCustomizationProps) => {
-  const { hero, setHero } = useLandingPageStore();
+  const { hero, setHero, media } = useLandingPageStore();
 
   const handleHeroChange = (key: keyof HeroData, value: any) => {
     setHero({ [key]: value });
@@ -198,10 +200,39 @@ export const HeroCustomization = ({ colorPalette }: HeroCustomizationProps) => {
             <Input id="bg-image-upload" type="file" accept="image/*" />
             <p className="text-sm text-gray-500">Or enter image URL:</p>
             <Input
-              placeholder="https://example.com/image.jpg"
+              placeholder="https://picsum.photos/200/200"
               value={hero.backgroundValue.startsWith('http') ? hero.backgroundValue : ''}
               onChange={(e) => handleHeroChange('backgroundValue', e.target.value)}
             />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="w-full mt-2">Select from Media Library</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Select an Image</DialogTitle>
+                </DialogHeader>
+                <div className="grid grid-cols-4 gap-4 py-4 max-h-[50vh] overflow-y-auto">
+                  {media.map((image) => (
+                    <div
+                      key={image.id}
+                      className="cursor-pointer border-2 border-transparent hover:border-primary rounded-md"
+                      onClick={() => {
+                        handleHeroChange('backgroundValue', image.url);
+                      }}
+                    >
+                      <Image
+                        src={image.url}
+                        alt={image.alt}
+                        width={100}
+                        height={100}
+                        className="object-cover rounded-md aspect-square"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         )}
 
@@ -308,6 +339,35 @@ export const HeroCustomization = ({ colorPalette }: HeroCustomizationProps) => {
                     onChange={(e) => handleHeroChange('visualUrl', e.target.value)}
                     placeholder="https://images.unsplash.com/photo-..."
                 />
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="w-full mt-2">Select from Media Library</Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Select an Image</DialogTitle>
+                    </DialogHeader>
+                    <div className="grid grid-cols-4 gap-4 py-4 max-h-[50vh] overflow-y-auto">
+                      {media.map((image) => (
+                        <div
+                          key={image.id}
+                          className="cursor-pointer border-2 border-transparent hover:border-primary rounded-md"
+                          onClick={() => {
+                            handleHeroChange('visualUrl', image.url);
+                          }}
+                        >
+                          <Image
+                            src={image.url}
+                            alt={image.alt}
+                            width={100}
+                            height={100}
+                            className="object-cover rounded-md aspect-square"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </DialogContent>
+                </Dialog>
                 </div>
             </div>
         )}
