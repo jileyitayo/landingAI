@@ -5,6 +5,7 @@ import { FeaturesSectionCustomization } from "@/app/components/customization-sec
 import SocialProofCustomization from "@/app/components/customization-section/social-proof-customization";
 import CtaSectionCustomization from "@/app/components/customization-section/cta-section-customization";
 import GeneralSettingsCustomization from "@/app/components/customization-section/general-settings-customization";
+import { PricingSectionCustomization } from "./customization-section/pricing-section-customization";
 
 interface CustomizationPanelProps {
   onNicheChange: (niche: string) => void;
@@ -28,10 +29,11 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
       </CardHeader>
       <CardContent className="p-0">
         <Tabs defaultValue="niche" className="h-full">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="niche">Basic</TabsTrigger>
             <TabsTrigger value="hero">Hero</TabsTrigger>
             <TabsTrigger value="features">Features</TabsTrigger>
+            <TabsTrigger value="pricing">Pricing</TabsTrigger>
             <TabsTrigger value="socialProof">Social Proof</TabsTrigger>
             <TabsTrigger value="cta">CTA</TabsTrigger>
           </TabsList>
@@ -47,6 +49,9 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
           </TabsContent>
           <TabsContent value="features">
             <FeaturesSectionCustomization />
+          </TabsContent>
+          <TabsContent value="pricing">
+            <PricingSectionCustomization />
           </TabsContent>
           <TabsContent value="socialProof">
             <SocialProofCustomization />

@@ -6,6 +6,7 @@ import SocialProofPreview from "@/app/components/preview-sections/social-proof-p
 import CtaSectionPreview from "@/app/components/preview-sections/cta-section-preview";
 import HeaderPreview from "./preview-sections/header-preview";
 import FooterPreview from "./preview-sections/footer-preview";
+import { PricingSectionPreview } from "./preview-sections/pricing-section-preview";
 
 interface PreviewPanelProps {
   content: LandingPageContent | null;
@@ -102,6 +103,8 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
           <SocialProofPreview />
 
           <CtaSectionPreview />
+
+          <PricingSectionPreview />
 
           <FooterPreview />
         </div>

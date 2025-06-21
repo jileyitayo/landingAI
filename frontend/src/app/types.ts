@@ -45,6 +45,22 @@ export interface LandingPageContent {
       headline: string;
       button_text: string;
     };
+    pricing: {
+      title: string;
+      tiers: {
+        name: string;
+        price: string;
+        frequency: string;
+        features: string[];
+        cta_text: string;
+        cta_link: string;
+      }[];
+      feature_comparison_table: boolean;
+      faqs: {
+        question: string;
+        answer: string;
+      }[];
+    };
     footer: {
       text: string;
     };
