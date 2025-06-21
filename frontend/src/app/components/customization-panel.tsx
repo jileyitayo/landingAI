@@ -1,17 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card";
-import { Input } from "@/app/components/ui/input";
-import { Label } from "@/app/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/components/ui/select";
-import { Switch } from "@/app/components/ui/switch";
-import { Button } from "@/app/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/app/components/ui/tabs";
-import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
-import { LandingPageContent, HeroData } from "@/app/types";
 import { HeroCustomization } from "@/app/components/customization-section/hero-customization";
 import { FeaturesSectionCustomization } from "@/app/components/customization-section/features-section-customization";
-import useLandingPageStore from "@/lib/store";
-import TestimonialsCustomization from "@/app/components/customization-section/testimonials-customization";
+import SocialProofCustomization from "@/app/components/customization-section/social-proof-customization";
 import CtaSectionCustomization from "@/app/components/customization-section/cta-section-customization";
 import GeneralSettingsCustomization from "@/app/components/customization-section/general-settings-customization";
 
@@ -41,7 +32,7 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
             <TabsTrigger value="niche">Basic</TabsTrigger>
             <TabsTrigger value="hero">Hero</TabsTrigger>
             <TabsTrigger value="features">Features</TabsTrigger>
-            <TabsTrigger value="testimonials">Testimonials</TabsTrigger>
+            <TabsTrigger value="socialProof">Social Proof</TabsTrigger>
             <TabsTrigger value="cta">CTA</TabsTrigger>
           </TabsList>
           
@@ -57,8 +48,8 @@ export const CustomizationPanel: React.FC<CustomizationPanelProps> = ({
           <TabsContent value="features">
             <FeaturesSectionCustomization />
           </TabsContent>
-          <TabsContent value="testimonials">
-            <TestimonialsCustomization />
+          <TabsContent value="socialProof">
+            <SocialProofCustomization />
           </TabsContent>
           <TabsContent value="cta">
             <CtaSectionCustomization />

@@ -1,10 +1,8 @@
-import { Button } from "@/app/components/ui/button";
 import { Card, CardContent } from "@/app/components/ui/card";
-import { Leaf } from "lucide-react";
 import { LandingPageContent } from "@/app/types";
 import { HeroPreview } from "@/app/components/preview-sections/hero-preview";
 import { FeaturesSectionPreview } from "@/app/components/preview-sections/features-section-preview";
-import TestimonialsPreview from "@/app/components/preview-sections/testimonials-preview";
+import SocialProofPreview from "@/app/components/preview-sections/social-proof-preview";
 import CtaSectionPreview from "@/app/components/preview-sections/cta-section-preview";
 import HeaderPreview from "./preview-sections/header-preview";
 import FooterPreview from "./preview-sections/footer-preview";
@@ -101,7 +99,7 @@ export const PreviewPanel = ({ content }: PreviewPanelProps) => {
 
           <FeaturesSectionPreview />
 
-          <TestimonialsPreview />
+          <SocialProofPreview />
 
           <CtaSectionPreview />
 
