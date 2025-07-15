@@ -86,3 +86,4 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg 
+frontend/public/uploads/

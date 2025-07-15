@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SynthAI - The Future of AI</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A;
+            color: #E2E8F0;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #4F46E5, #A855F7, #EC4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .cta-glow {
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5), 0 0 30px rgba(168, 85, 247, 0.3);
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #4F46E5;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 left-0 z-50 bg-black bg-opacity-50 backdrop-blur-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center space-x-2">
+                    <svg class="h-8 w-8 text-indigo-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                    <span class="text-2xl font-bold text-white">SynthAI</span>
+                </a>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-300 hover:text-white transition-colors">Features</a>
+                    <a href="#pricing" class="text-gray-300 hover:text-white transition-colors">Pricing</a>
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors">Docs</a>
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors">Company</a>
+                </nav>
+
+                <!-- Auth Buttons -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#" class="text-gray-300 hover:text-white transition-colors">Login</a>
+                    <a href="#" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                        Sign Up
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-300 hover:text-white">
+                        <i data-lucide="menu" class="h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#features" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Features</a>
+                <a href="#pricing" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Pricing</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Docs</a>
+                 <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Company</a>
+                <div class="border-t border-gray-700 my-4"></div>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Login</a>
+                <a href="#" class="block w-full text-left bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-3 rounded-lg transition-colors">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="pt-32 pb-20 md:pt-48 md:pb-32 relative overflow-hidden">
+             <div class="absolute inset-0 bg-grid-gray-700/[0.05] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
+             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-indigo-900/40 rounded-full blur-3xl animate-pulse"></div>
+
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6">
+                    Build AI Applications with
+                    <span class="gradient-text">Unprecedented Speed</span>
+                </h1>
+                <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-10">
+                    SynthAI provides the tools and infrastructure to develop, deploy, and scale your AI projects faster than ever before. Focus on innovation, not on infrastructure.
+                </p>
+                <div class="flex justify-center items-center space-x-4">
+                    <a href="#pricing" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-lg text-lg transition-transform transform hover:scale-105 cta-glow">
+                        Get Started
+                    </a>
+                    <a href="#" class="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors">
+                        <span>Read Docs</span>
+                        <i data-lucide="arrow-right" class="h-5 w-5"></i>
+                    </a>
+                </div>
+
+                <div class="mt-20">
+                    <img src="https://placehold.co/1200x600/111827/4F46E5?text=SynthAI+Dashboard" alt="AI Dashboard" class="rounded-xl mx-auto shadow-2xl shadow-indigo-900/50 border border-gray-800">
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Proof Section -->
+        <section class="py-12 bg-black/20">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <p class="text-center text-gray-500 font-medium mb-6">TRUSTED BY THE WORLD'S MOST INNOVATIVE COMPANIES</p>
+                <div class="flex flex-wrap justify-center items-center gap-x-8 md:gap-x-12 gap-y-4">
+                    <img src="https://placehold.co/150x40/0A0A0A/4A5568?text=CompanyA" alt="Company A Logo" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                    <img src="https://placehold.co/150x40/0A0A0A/4A5568?text=TechCorp" alt="TechCorp Logo" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                    <img src="https://placehold.co/150x40/0A0A0A/4A5568?text=InnovateIO" alt="InnovateIO Logo" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                    <img src="https://placehold.co/150x40/0A0A0A/4A5568?text=DataDriven" alt="DataDriven Logo" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                    <img src="https://placehold.co/150x40/0A0A0A/4A5568?text=FutureSys" alt="FutureSys Logo" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20 md:py-32">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Everything you need to scale AI</h2>
+                    <p class="text-lg text-gray-400">
+                        From data processing to model deployment, our platform is designed to streamline your entire AI workflow.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+                    <!-- Feature 1 -->
+                    <div class="feature-card bg-gray-900/50 p-8 rounded-xl border border-gray-800 transition-all duration-300">
+                        <div class="bg-indigo-600/20 text-indigo-400 rounded-lg h-12 w-12 flex items-center justify-center mb-6">
+                            <i data-lucide="database" class="h-6 w-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Data Pipelines</h3>
+                        <p class="text-gray-400">Automate data ingestion, cleaning, and preprocessing with our intuitive visual pipeline builder. Connect to any data source effortlessly.</p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="feature-card bg-gray-900/50 p-8 rounded-xl border border-gray-800 transition-all duration-300">
+                        <div class="bg-purple-600/20 text-purple-400 rounded-lg h-12 w-12 flex items-center justify-center mb-6">
+                            <i data-lucide="brain-circuit" class="h-6 w-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Model Training</h3>
+                        <p class="text-gray-400">Train models at scale with distributed computing. Use popular frameworks like TensorFlow and PyTorch, or bring your own.</p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="feature-card bg-gray-900/50 p-8 rounded-xl border border-gray-800 transition-all duration-300">
+                        <div class="bg-pink-600/20 text-pink-400 rounded-lg h-12 w-12 flex items-center justify-center mb-6">
+                            <i data-lucide="rocket" class="h-6 w-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">One-Click Deployment</h3>
+                        <p class="text-gray-400">Deploy your trained models as scalable APIs with a single click. We handle the infrastructure, auto-scaling, and monitoring.</p>
+                    </div>
+
+                    <!-- Feature 4 -->
+                    <div class="feature-card bg-green-600/20 text-green-400 p-8 rounded-xl border border-gray-800 transition-all duration-300">
+                        <div class="bg-green-600/20 text-green-400 rounded-lg h-12 w-12 flex items-center justify-center mb-6">
+                            <i data-lucide="bar-chart-3" class="h-6 w-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Real-time Monitoring</h3>
+                        <p class="text-gray-400">Keep track of model performance, data drift, and resource usage with our integrated monitoring dashboards.</p>
+                    </div>
+
+                    <!-- Feature 5 -->
+                    <div class="feature-card bg-yellow-600/20 text-yellow-400 p-8 rounded-xl border border-gray-800 transition-all duration-300">
+                        <div class="bg-yellow-600/20 text-yellow-400 rounded-lg h-12 w-12 flex items-center justify-center mb-6">
+                            <i data-lucide="users" class="h-6 w-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Collaboration Tools</h3>
+                        <p class="text-gray-400">Work together with your team in a shared environment. Manage projects, share models, and review code seamlessly.</p>
+                    </div>
+
+                    <!-- Feature 6 -->
+                    <div class="feature-card bg-cyan-600/20 text-cyan-400 p-8 rounded-xl border border-gray-800 transition-all duration-300">
+                        <div class="bg-cyan-600/20 text-cyan-400 rounded-lg h-12 w-12 flex items-center justify-center mb-6">
+                            <i data-lucide="shield-check" class="h-6 w-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Enterprise Security</h3>
+                        <p class="text-gray-400">Benefit from enterprise-grade security features, including role-based access control, data encryption, and audit logs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CTA Section -->
+        <section class="py-20 md:py-24 bg-gray-900/50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-10 md:p-16 text-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4">Ready to Accelerate Your AI Development?</h2>
+                    <p class="text-lg text-indigo-200 max-w-2xl mx-auto mb-8">Join thousands of developers and data scientists building the future of AI. Start your free trial today, no credit card required.</p>
+                    <a href="#" class="bg-white hover:bg-gray-200 text-indigo-600 font-bold py-3 px-8 rounded-lg text-lg transition-transform transform hover:scale-105">
+                        Start Building for Free
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="py-20 md:py-32">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Flexible pricing for teams of all sizes</h2>
+                    <p class="text-lg text-gray-400">
+                        Choose the plan that's right for you. All plans come with a 14-day free trial.
+                    </p>
+                </div>
+
+                <div class="mt-16 grid lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <!-- Pricing Card 1: Starter -->
+                    <div class="bg-gray-900/50 p-8 rounded-xl border border-gray-800 flex flex-col">
+                        <h3 class="text-2xl font-semibold text-white">Starter</h3>
+                        <p class="text-gray-400 mt-2">For individuals and small projects.</p>
+                        <div class="mt-6">
+                            <span class="text-5xl font-extrabold text-white">$49</span>
+                            <span class="text-gray-400">/ month</span>
+                        </div>
+                        <ul class="mt-8 space-y-4 text-gray-300 flex-grow">
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-green-500"></i><span>10 AI Projects</span></li>
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-green-500"></i><span>Up to 5 users</span></li>
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-green-500"></i><span>100 GB Data Storage</span></li>
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-green-500"></i><span>Community Support</span></li>
+                        </ul>
+                        <a href="#" class="mt-8 block w-full text-center bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors">Choose Plan</a>
+                    </div>
+                    
+                    <!-- Pricing Card 2: Pro (Most Popular) -->
+                    <div class="bg-indigo-600 p-8 rounded-xl border-2 border-indigo-500 flex flex-col relative shadow-2xl shadow-indigo-500/30">
+                        <div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2">
+                            <span class="bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Most Popular</span>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-white">Pro</h3>
+                        <p class="text-indigo-200 mt-2">For growing teams and businesses.</p>
+                        <div class="mt-6">
+                            <span class="text-5xl font-extrabold text-white">$199</span>
+                            <span class="text-indigo-200">/ month</span>
+                        </div>
+                        <ul class="mt-8 space-y-4 text-indigo-100 flex-grow">
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-white"></i><span>Unlimited Projects</span></li>
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-white"></i><span>Up to 20 users</span></li>
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-white"></i><span>1 TB Data Storage</span></li>
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-white"></i><span>Priority Email Support</span></li>
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-white"></i><span>Advanced Analytics</span></li>
+                        </ul>
+                        <a href="#" class="mt-8 block w-full text-center bg-white hover:bg-gray-200 text-indigo-600 font-bold py-3 px-6 rounded-lg transition-colors">Choose Plan</a>
+                    </div>
+
+                    <!-- Pricing Card 3: Enterprise -->
+                    <div class="bg-gray-900/50 p-8 rounded-xl border border-gray-800 flex flex-col">
+                        <h3 class="text-2xl font-semibold text-white">Enterprise</h3>
+                        <p class="text-gray-400 mt-2">For large organizations with specific needs.</p>
+                        <div class="mt-6">
+                            <span class="text-5xl font-extrabold text-white">Custom</span>
+                        </div>
+                        <ul class="mt-8 space-y-4 text-gray-300 flex-grow">
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-green-500"></i><span>Everything in Pro</span></li>
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-green-500"></i><span>Unlimited users</span></li>
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-green-500"></i><span>Dedicated Infrastructure</span></li>
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-green-500"></i><span>24/7 Premium Support</span></li>
+                            <li class="flex items-center space-x-3"><i data-lucide="check" class="h-5 w-5 text-green-500"></i><span>Custom Integrations</span></li>
+                        </ul>
+                        <a href="#" class="mt-8 block w-full text-center bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900/50 border-t border-gray-800">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+                <!-- Logo and Social -->
+                <div class="col-span-2 lg:col-span-2">
+                    <a href="#" class="flex items-center space-x-2">
+                         <svg class="h-8 w-8 text-indigo-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                        <span class="text-2xl font-bold text-white">SynthAI</span>
+                    </a>
+                    <p class="mt-4 text-gray-400 max-w-xs">The ultimate platform for building, deploying, and scaling AI applications.</p>
+                    <div class="mt-6 flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="github"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="linkedin"></i></a>
+                    </div>
+                </div>
+
+                <!-- Product Links -->
+                <div>
+                    <h4 class="font-semibold text-white tracking-wider uppercase">Product</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Updates</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">API</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company Links -->
+                <div>
+                    <h4 class="font-semibold text-white tracking-wider uppercase">Company</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources Links -->
+                <div>
+                    <h4 class="font-semibold text-white tracking-wider uppercase">Resources</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Support</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Case Studies</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Community</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Legal Links -->
+                <div>
+                    <h4 class="font-semibold text-white tracking-wider uppercase">Legal</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-12 border-t border-gray-800 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 SynthAI, Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
